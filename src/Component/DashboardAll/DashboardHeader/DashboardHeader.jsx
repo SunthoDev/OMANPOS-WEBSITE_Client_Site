@@ -1,6 +1,6 @@
 import React from 'react';
 import "./DashboardHeader.css"
-import logo from "../../../assets/logo.png"
+import logo from "../../../assets/logo-two.png"
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../AuthoncationAll/AuthProvider/AuthProvider';

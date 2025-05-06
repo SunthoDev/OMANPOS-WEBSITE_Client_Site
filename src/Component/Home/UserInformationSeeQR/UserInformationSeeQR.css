@@ -1,31 +1,30 @@
-
 @font-face {
     font-family: 'Calibri';
     src: url('../../../assets/fonts/calibri-regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
-  }
-  
-  @font-face {
+}
+
+@font-face {
     font-family: 'Calibri';
     src: url('../../../assets/fonts/calibri-bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
-  }
-  
-  @font-face {
+}
+
+@font-face {
     font-family: 'Calibri';
     src: url('../../../assets/fonts/calibri-italic.ttf') format('truetype');
     font-weight: 400;
     font-style: italic;
-  }
-  
-  @font-face {
+}
+
+@font-face {
     font-family: 'Calibri';
     src: url('../../../assets/fonts/calibri-bolditalic.ttf') format('truetype');
     font-weight: 700;
     font-style: italic;
-  }
+}
 
 
 /* ============================================ */
@@ -132,6 +131,7 @@
     font-size: 20px;
     font-family: 'Calibri';
 }
+
 .UserInformationSeeQRParent .AdminPanelButton {
     position: absolute;
     top: 1%;
@@ -146,9 +146,10 @@
     transition: .4s;
     cursor: pointer;
 }
-.UserInformationSeeQRParent .AdminPanelButton:hover{
 
-    background-color:#49afcd;
+.UserInformationSeeQRParent .AdminPanelButton:hover {
+
+    background-color: #49afcd;
     color: white;
 }
 
@@ -202,6 +203,7 @@
 .UserInformationSeeQRParent .UserInformationSee .UserData tr:last-child {
     border-bottom: none;
 }
+
 .UserInformationSeeQRParent .UserInformationSee .UserData .left {
     border: 1px solid #aeaeae;
     height: 22px;
@@ -210,6 +212,7 @@
     padding-top: 0px;
     padding-bottom: 0px;
 }
+
 .UserInformationSeeQRParent .UserInformationSee .UserData .right {
     font-family: Calibri;
     font-size: 16px;
@@ -221,7 +224,7 @@
     height: 22px;
 }
 
-.UserInformationSeeQRParent .UserInformationSee .UserData .DocumentView{
+.UserInformationSeeQRParent .UserInformationSee .UserData .DocumentView {
     padding-left: 6px;
     font-style: italic;
 }
@@ -233,33 +236,51 @@
 
 
 
+/* ================================================================================================= */
 
 
 
 
+/* ========================================================= */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.alertContainerTwo {
+    /* position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s; */
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 942px;
+    background-color: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    visibility: hidden;
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+    z-index: 999;
+    overflow-y: auto;
+}
+.showAlertJs {
+    z-index: 999;
+    top: 50%;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    height: 100vh;
+}
+.removeAlertBtn {
+    border: 2px solid white;
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    border-radius: 50%;
+    line-height: 17px;
+    font-size: 28px;
+}

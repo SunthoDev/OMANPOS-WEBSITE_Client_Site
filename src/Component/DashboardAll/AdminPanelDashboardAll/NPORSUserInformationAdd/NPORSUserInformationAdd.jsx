@@ -23,89 +23,76 @@ const NPORSUserInformationAdd = () => {
         setLoadingLogin(true)
         setError("")
         setSuccess("")
-        let fromData = new FormData()
-        fromData.append("image", data.UserImage[0])
-        fetch(`https://api.imgbb.com/1/upload?key=bcc7bb34dc85d2c887a08b90dcfbe9ed`, {
+
+        let date = moment().format("D/MM/YY , hh:mm A")
+        // function generateEncodedRandomId() {
+        //     const array = new Uint8Array(16); // 16 bytes random
+        //     crypto.getRandomValues(array); // Secure random bytes
+        //     const base64 = btoa(String.fromCharCode(...array)); // Convert to base64
+        //     const encoded = encodeURIComponent(base64); // URL-safe encode
+        //     return encoded;
+        //   }
+        //   const EncodeId = generateEncodedRandomId();
+
+          function generate16CharId() {
+            const array = new Uint8Array(12);
+            crypto.getRandomValues(array);
+            const binary = String.fromCharCode(...array);
+            const base64 = btoa(binary);
+            // Base64 কে URL-safe বানানো
+            const base64url = base64
+              .replace(/\+/g, '-')
+              .replace(/\//g, '_')
+              .replace(/=+$/, '');
+            return base64url.slice(0, 16);
+          }
+          
+          const EncodeId = generate16CharId();
+
+        let {
+            TransactionNumber, PaymentID, TotalPayment, TransactionDate,
+
+            DocumentType, ApplicantName, EmailId, PhoneNumber,
+
+            VerifierName, VerificationStatus, VerificationDateTime
+        } = data
+
+        let allInfo = {
+
+            TransactionNumber, PaymentID, TotalPayment, TransactionDate,
+
+            DocumentType, ApplicantName, EmailId, PhoneNumber,
+
+            VerifierName, VerificationStatus, VerificationDateTime,
+
+            date, EncodeId
+        }
+
+        // console.log(allInfo)
+
+        // save user Database 
+        // ==========================
+        fetch("http://localhost:5000/InsertUserInfo", {
             method: "POST",
-            body: fromData
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(allInfo)
         })
             .then(res => res.json())
-            .then(imageResponse => {
-                if (imageResponse.success) {
-
-                    console.log(imageResponse.secure_url);
-
-                    let UserImageUrl = imageResponse.data.display_url
-                    let date = moment().format("D/MM/YY , hh:mm A")
-
-                    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                    let VerificationNo = '';
-                    for (let i = 0; i < 8; i++) {
-                        VerificationNo += characters.charAt(Math.floor(Math.random() * characters.length));
-                    }
-                    VerificationNo += '&t';
-
-                    let {
-                        UserName,RegistrationNo,Expiry,
-
-                        CardCategoriesName,CardCategoriesDate,
-
-                        OperatorCategoriesName,OperatorCategoriesDate,
-
-                        Slinger,SlingerDate
-
-                    } = data
-
-                    let allInfo = {
-
-                        UserImageUrl, UserName,RegistrationNo,Expiry,
-
-                        CardCategoriesName,CardCategoriesDate,
-
-                        OperatorCategoriesName,OperatorCategoriesDate,
-                        
-                        Slinger,SlingerDate,
-
-                        VerificationNo,date
-                    }
-
-                    console.log(allInfo)
-
-                    // save user Database 
-                    // ==========================
-                    fetch("http://localhost:5000/InsertNporsUserInfo", {
-                        method: "POST",
-                        headers: {
-                            "content-type": "application/json"
-                        },
-                        body: JSON.stringify(allInfo)
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                            // console.log(data)
-                            if (data.insertedId) {
-                                reset()
-                                setLoadingLogin(false)
-                                setSuccess("User Information Add Successfully")
-                                Swal.fire({
-                                    position: "top-end",
-                                    icon: "success",
-                                    title: "User Information Add Successfully",
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
-                            }
-                        })
-
-                } else {
+            .then(data => {
+                // console.log(data)
+                if (data.insertedId) {
+                    reset()
                     setLoadingLogin(false)
+                    setSuccess("User Information Add Successfully")
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: "Your Network Connection Lost, Try agin",
+                        title: "User Information Add Successfully",
                         showConfirmButton: false,
                         timer: 1500
-                    });
+                    })
                 }
             })
     }
@@ -121,7 +108,7 @@ const NPORSUserInformationAdd = () => {
 
             <div className="welcomeBanner mx-4 md:mx-0">
                 <div className="overlay ">
-                    <h2 className="text-[48px]">NPORS DATA ENTRY</h2>
+                    <h2 className="text-[48px]">DOCSWALLET DATA ENTRY</h2>
                 </div>
             </div>
 
@@ -130,171 +117,148 @@ const NPORSUserInformationAdd = () => {
 
                 <div className='AllToyData grid mx-4 md:mx-0 md:grid-cols-2 gap-8'>
 
-                    {/* User Image */}
+                    {/* Transaction Number */}
                     {/* =========================== */}
                     <div className=" form-control">
                         <label className="label">
-                            <span className="ToyName label-text">User Image</span>
+                            <span className="ToyName label-text">Transaction Number</span>
                         </label>
                         <label className=" input-group w-full">
-                            <span>Image</span>
-                            <input type="file" name='UserImage'
-                                {...register("UserImage", { required: true })}
-                                className="file-input file-input-bordered w-full" />
-                        </label>
-                    </div>
-                    {/* User Name */}
-                    {/* =========================== */}
-                    <div className=" form-control">
-                        <label className="label">
-                            <span className="ToyName label-text">User Name</span>
-                        </label>
-                        <label className=" input-group w-full">
-                            <span>Name</span>
-                            <input type="text" name='UserName'
-                                {...register("UserName", { required: true })}
-                                placeholder="User name" className="input input-bordered input-accent w-full " />
+                            <span>Transaction Number</span>
+                            <input type="text" name='TransactionNumber'
+                                {...register("TransactionNumber", { required: true })}
+                                placeholder="Transaction Number" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
 
-                    {/* Registration No */}
+                    {/* Payment ID */}
                     {/* =========================== */}
                     <div className=" form-control">
                         <label className="label">
-                            <span className="ToyName label-text">Registration No</span>
+                            <span className="ToyName label-text">Payment ID</span>
                         </label>
                         <label className=" input-group w-full">
-                            <span>Registration No</span>
-                            <input type="Number" name='RegistrationNo'
-                                {...register("RegistrationNo", { required: true })}
-                                placeholder="Registration No" className="input input-bordered input-accent w-full " />
+                            <span>Payment ID</span>
+                            <input type="Number" name='PaymentID'
+                                {...register("PaymentID", { required: true })}
+                                placeholder="Payment ID" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
-                    {/* Expiry */}
+                    {/* Total Payment */}
                     {/* =========================== */}
                     <div className=" form-control">
                         <label className="label">
-                            <span className="ToyName label-text">Expiry</span>
+                            <span className="ToyName label-text">Total Payment</span>
                         </label>
                         <label className=" input-group w-full">
-                            <span>Expiry</span>
-                            <input type="text" name='Expiry'
-                                {...register("Expiry", { required: true })}
-                                placeholder="Expiry" className="input input-bordered input-accent w-full " />
+                            <span>Total Payment</span>
+                            <input type="text" name='TotalPayment'
+                                {...register("TotalPayment", { required: true })}
+                                placeholder="Total Payment" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
-
-
-                </div>
-
-                {/* ================================================================= */}
-                {/* NPORS  Card Categories */}
-                {/* ================================================================= */}
-
-                <h2 className="text-center text-[22px] py-[20px] text-black">
-                    NPORS Card Categories</h2>
-
-                <div className='AllToyData grid mx-4 md:mx-0 md:grid-cols-2 gap-8'>
-
-                    {/* One Course Program */}
+                    {/* Transaction Date */}
                     {/* =========================== */}
                     <div className=" form-control">
                         <label className="label">
-                            <span className="ToyName label-text">Card Categories name</span>
+                            <span className="ToyName label-text">Transaction Date</span>
                         </label>
                         <label className=" input-group w-full">
-                            <span>Card Categories name</span>
-                            <input type="text" name='CardCategoriesName'
-                                {...register("CardCategoriesName")}
-                                placeholder="Card Categories name" className="input input-bordered input-accent w-full " />
+                            <span>Transaction Date</span>
+                            <input type="text" name='TransactionDate'
+                                {...register("TransactionDate", { required: true })}
+                                placeholder="Transaction Date" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
-                    {/* One Sub Category */}
+                    {/* Document Type */}
                     {/* =========================== */}
                     <div className=" form-control">
                         <label className="label">
-                            <span className="ToyName label-text">Card Categories Date</span>
+                            <span className="ToyName label-text">Document Type</span>
                         </label>
                         <label className=" input-group w-full">
-                            <span>Card Categories Date</span>
-                            <input type="text" name='CardCategoriesDate'
-                                {...register("CardCategoriesDate")}
-                                placeholder="Card Categories Date" className="input input-bordered input-accent w-full " />
+                            <span>Document Type</span>
+                            <input type="text" name='DocumentType'
+                                {...register("DocumentType", { required: true })}
+                                placeholder="Document Type" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
-
-                </div>
-
-                {/* ================================================================= */}
-                {/* NPORS  Operator  Categories */}
-                {/* ================================================================= */}
-
-                <h2 className="text-center text-[22px] py-[20px] text-black">NPORS Operator Categories</h2>
-
-                <div className='AllToyData grid mx-4 md:mx-0 md:grid-cols-2 gap-8'>
-
-                    {/* One Course Program */}
+                    {/* Applicant Name */}
                     {/* =========================== */}
                     <div className=" form-control">
                         <label className="label">
-                            <span className="ToyName label-text">Operator Categories name</span>
+                            <span className="ToyName label-text">Applicant Name</span>
                         </label>
                         <label className=" input-group w-full">
-                            <span>Operator Categories name</span>
-                            <input type="text" name='OperatorCategoriesName'
-                                {...register("OperatorCategoriesName")}
-                                placeholder="Operator Categories name" className="input input-bordered input-accent w-full " />
+                            <span>Applicant Name</span>
+                            <input type="text" name='ApplicantName'
+                                {...register("ApplicantName", { required: true })}
+                                placeholder="Applicant Name" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
-                    {/* One Sub Category */}
+                    {/* Email Id */}
                     {/* =========================== */}
                     <div className=" form-control">
                         <label className="label">
-                            <span className="ToyName label-text">Operator Categories Date</span>
+                            <span className="ToyName label-text">Email Id</span>
                         </label>
                         <label className=" input-group w-full">
-                            <span>Operator Categories Date</span>
-                            <input type="text" name='OperatorCategoriesDate'
-                                {...register("OperatorCategoriesDate")}
-                                placeholder="Operator Categories Date" className="input input-bordered input-accent w-full " />
+                            <span>Email Id</span>
+                            <input type="text" name='EmailId'
+                                {...register("EmailId", { required: true })}
+                                placeholder="Email Id" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
-
-                </div>
-
-                {/* ================================================================= */}
-                {/* Slinger/Signaller required */}
-                {/* ================================================================= */}
-
-                <h2 className="text-center text-[22px] py-[20px] text-black">Slinger/Signaller required</h2>
-
-                <div className='AllToyData grid mx-4 md:mx-0 md:grid-cols-2 gap-8'>
-
-                    {/* Slinger/Signaller */}
+                    {/* Phone Number */}
                     {/* =========================== */}
                     <div className=" form-control">
                         <label className="label">
-                            <span className="ToyName label-text">Slinger/Signaller</span>
+                            <span className="ToyName label-text">Phone Number</span>
                         </label>
                         <label className=" input-group w-full">
-                            <span>Slinger/Signaller</span>
-                            <input type="text" name='Slinger'
-                                {...register("Slinger", { required: true })}
-                                placeholder="Slinger" className="input input-bordered input-accent w-full " />
+                            <span>Phone Number</span>
+                            <input type="text" name='PhoneNumber'
+                                {...register("PhoneNumber", { required: true })}
+                                placeholder="Phone Number" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
-
-                    {/* Slinger / Date */}
+                    {/* Verifier Name */}
                     {/* =========================== */}
                     <div className=" form-control">
                         <label className="label">
-                            <span className="ToyName label-text">Slinger Date</span>
+                            <span className="ToyName label-text">Verifier Name</span>
                         </label>
                         <label className=" input-group w-full">
-                            <span>Slinger Date</span>
-                            <input type="text" name='SlingerDate'
-                                {...register("SlingerDate", { required: true })}
-                                placeholder="Slinger Date" className="input input-bordered input-accent w-full " />
+                            <span>Verifier Name</span>
+                            <input type="text" name='VerifierName'
+                                {...register("VerifierName", { required: true })}
+                                placeholder="Verifier Name" className="input input-bordered input-accent w-full " />
+                        </label>
+                    </div>
+                    {/* Verification Status */}
+                    {/* =========================== */}
+                    <div className=" form-control">
+                        <label className="label">
+                            <span className="ToyName label-text">Verification Status</span>
+                        </label>
+                        <label className=" input-group w-full">
+                            <span>Verification Status</span>
+                            <input type="text" name='VerificationStatus'
+                                {...register("VerificationStatus", { required: true })}
+                                placeholder="Verification Status" className="input input-bordered input-accent w-full " />
+                        </label>
+                    </div>
+                    {/* Verification Date & Time */}
+                    {/* =========================== */}
+                    <div className=" form-control">
+                        <label className="label">
+                            <span className="ToyName label-text">Verification Date & Time</span>
+                        </label>
+                        <label className=" input-group w-full">
+                            <span>Verification Date & Time</span>
+                            <input type="text" name='VerificationDateTime'
+                                {...register("VerificationDateTime", { required: true })}
+                                placeholder="Verification Date & Time" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
 

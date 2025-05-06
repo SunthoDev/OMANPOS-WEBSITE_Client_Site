@@ -6,13 +6,13 @@ import NPORSUserData from './NPORSUserData/NPORSUserData';
 
 const NPORSUserAllInformation = () => {
 
-    // ALl H2H User Data Find
+    // User Data Find
     // ================================
 
     const { data: NPORSUserAllData = [], refetch } = useQuery({
-        queryKey: ["NporsUserInfo"],
+        queryKey: ["UserInfo"],
         queryFn: async () => {
-            const res = await fetch("http://localhost:5000/NporsUserInfo");
+            const res = await fetch("http://localhost:5000/UserInfo");
             return res.json();
         },
     });
@@ -65,11 +65,10 @@ const NPORSUserAllInformation = () => {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th className="text-[14px] font-[600] text-white">Image</th>
                                 <th className="text-[14px] font-[600] text-white">Name</th>
-                                <th className="text-[14px] font-[600] text-white">Card Categories</th>
-                                <th className="text-[14px] font-[600] text-white">Operator Categories</th>
-                                <th className="text-[14px] font-[600] text-white">Verification No</th>
+                                <th className="text-[14px] font-[600] text-white">Document Type</th>
+                                <th className="text-[14px] font-[600] text-white">Pay Id</th>
+                                <th className="text-[14px] font-[600] text-white">Status</th>
                                 <th className="text-[14px] font-[600] text-white">QR Code</th>
                                 <th className="text-[14px] font-[600] text-white">Role</th>
                             </tr>
