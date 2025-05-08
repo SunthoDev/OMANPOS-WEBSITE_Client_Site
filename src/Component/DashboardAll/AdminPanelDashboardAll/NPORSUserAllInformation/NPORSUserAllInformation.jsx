@@ -12,7 +12,7 @@ const NPORSUserAllInformation = () => {
     const { data: NPORSUserAllData = [], refetch } = useQuery({
         queryKey: ["UserInfo"],
         queryFn: async () => {
-            const res = await fetch("http://localhost:5000/UserInfo");
+            const res = await fetch("https://server.docswallat.com/UserInfo");
             return res.json();
         },
     });
@@ -32,7 +32,7 @@ const NPORSUserAllInformation = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                fetch(`http://localhost:5000/DeleteUserInformation/${id}`, {
+                fetch(`https://server.docswallat.com/DeleteUserInformation/${id}`, {
                     method: "DELETE",
                 })
                     .then(res => res.json())

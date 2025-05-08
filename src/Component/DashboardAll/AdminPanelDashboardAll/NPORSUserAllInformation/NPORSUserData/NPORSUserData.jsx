@@ -19,7 +19,7 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
 
         VerifierName, VerificationStatus, VerificationDateTime,
 
-        date, EncodeId, _id
+        date, VerificationNo, _id
 
     } = NporsUserData
 
@@ -74,14 +74,6 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
     }
 
 
-    // ===================================================
-    // Attested Document PDF Add Start
-    // ===================================================
-
-    function HandleAttestedDocumentPDFAdd(id) {
-
-    }
-
 
     // ===================================================
     // Modal One Start
@@ -102,14 +94,14 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
     // User Original Document PDf Add Start
     // ===========================================================
     const [OriginalFile, setOriginalFile] = useState(null);
-    
+
     const HandleOriginalDocumentPDFAdd = async () => {
         const formData = new FormData();
         formData.append('file', OriginalFile);
         // console.log(formData)
         setOriginalLoading(true)
         try {
-            const result = await axios.put(`http://localhost:5000/Original-upload-files/${OriginalId}`, formData, {
+            const result = await axios.put(`https://server.docswallat.com/Original-upload-files/${OriginalId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -136,6 +128,66 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
     // ===========================================================
     // User Original Document PDf Add End
     // ===========================================================
+
+
+
+
+
+    // ===================================================
+    // Modal Two Start
+    // ===================================================
+    let [modalTwo, setModalTwo] = useState(false)
+    let [AttestedId, setAttestedId] = useState("")
+    let [AttestedLoading, setAttestedLoading] = useState(false)
+
+    const closeAlertButtonTwo = () => {
+        setModalTwo(false)
+    }
+    const handleAdAttestedDocument = (id) => {
+        setModalTwo(true)
+        setAttestedId(id)
+    }
+
+    // ===========================================================
+    // User Attested Document PDf Add Start
+    // ===========================================================
+    const [AttestedFile, setAttestedFile] = useState(null);
+
+    const HandleAttestedDocumentPDFAdd = async () => {
+        const formData = new FormData();
+        formData.append('file', AttestedFile);
+        // console.log(formData)
+        setAttestedLoading(true)
+        try {
+            const result = await axios.put(`https://server.docswallat.com/Attested-upload-files/${AttestedId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            if (result.status === 200) {
+                setModalTwo(false)
+                setAttestedLoading(false)
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your PDF File Upload Is Success",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+            // console.log(result)
+        } catch (error) {
+            setModalTwo(false)
+            setAttestedLoading(false)
+            console.error("There was an error uploading the file!", error);
+            alert("File upload failed!");
+        }
+    };
+    // ===========================================================
+    // User Attested Document PDf Add End
+    // ===========================================================
+
+
 
 
 
@@ -173,7 +225,7 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
             <td>
                 <button onClick={QRDownload}>QR Download</button>
                 <br />
-                <button onClick={() => handleVerify(_id)}>See Info</button>
+                <button onClick={() => handleVerify(VerificationNo)}>See Info</button>
                 <br />
                 <button onClick={() => UpdateInformation(_id)}>Update Info</button>
                 <br />
@@ -181,7 +233,7 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
                 <br />
                 <button onClick={() => handleAdOriginalDocument(_id)}>Original Document</button>
                 <br />
-                <button onClick={() => HandleAttestedDocumentPDFAdd(_id)}>Attested Document</button>
+                <button onClick={() => handleAdAttestedDocument(_id)}>Attested Document</button>
             </td>
 
             {/* ========================================================================================= */}
@@ -219,6 +271,43 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
             {/* ========================================================================================= */}
             {/* Original Document PDF Add End*/}
             {/* ========================================================================================= */}
+
+            {/* ========================================================================================= */}
+            {/* Attested Document PDF Add Start*/}
+            {/* ========================================================================================= */}
+
+            <div className={`alertContainer rounded-[8px]  px-4  lg:px-0 w-full lg:w-[38%]  ${modalTwo === true && "showAlertJs"}`} >
+
+                <div className="Modal">
+                    <div className="popInfo px-4 py-4 mt-3">
+
+                        <h6>Add Attested Document PDF</h6>
+
+                        <div className='AllToyData'>
+
+                            {/* mainImage  */}
+                            <div className=" form-control">
+                                <label className="label">
+                                    <span className="ToyName label-text">Add Attested Document PDF</span>
+                                </label>
+                                <label className=" input-group w-full">
+                                    <span>Attested Document PDF</span>
+                                    <input type="file" name='AttestedPDF'
+                                        onChange={(e) => setAttestedFile(e.target.files[0])}
+                                        className="file-input file-input-bordered w-full" />
+                                </label>
+                            </div>
+                        </div>
+                        <button className='UpdateButton' onClick={HandleAttestedDocumentPDFAdd}>{AttestedLoading ? "Loading..." : "Attested PDF Add"}</button>
+                    </div>
+                    <button onClick={closeAlertButtonTwo} className="removeAlertBtn"><i className="fa fa-times-circle" aria-hidden="true"></i></button>
+                </div>
+            </div>
+
+            {/* ========================================================================================= */}
+            {/* Attested Document PDF Add End*/}
+            {/* ========================================================================================= */}
+
 
 
         </tr>

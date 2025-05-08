@@ -166,17 +166,14 @@
 .UserInformationSeeQRParent .UserInformationSee h1 {
     font-size: 2rem;
     color: #49afcd;
-    text-align: center;
-    font-weight: 700;
+    font-weight: 600;
     font-family: 'Calibri';
 }
 
 .UserInformationSeeQRParent .UserInformationSee h2 {
     font-size: 2rem;
     color: #49afcd;
-    text-align: center;
     font-weight: 600;
-    padding-top: 0px;
     font-family: 'Calibri';
 }
 
@@ -211,6 +208,7 @@
     color: black;
     padding-top: 0px;
     padding-bottom: 0px;
+    line-height: 20px;
 }
 
 .UserInformationSeeQRParent .UserInformationSee .UserData .right {
@@ -222,6 +220,7 @@
     font-weight: 700;
     border: 1px solid #aeaeae;
     height: 22px;
+    /* line-height: 23px; */
 }
 
 .UserInformationSeeQRParent .UserInformationSee .UserData .DocumentView {
@@ -244,43 +243,62 @@
 /* ========================================================= */
 
 .alertContainerTwo {
-    /* position: absolute;
+    position: absolute;
     top: 0%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.1);
     text-align: center;
     visibility: hidden;
-    transition: transform 0.4s, top 0.4s; */
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 942px;
-    background-color: white;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-    visibility: hidden;
-    transform: translateX(100%);
-    transition: transform 0.4s ease-in-out;
-    z-index: 999;
     overflow-y: auto;
+    z-index: 999;
+    height: 100vh;
 }
 .showAlertJs {
     z-index: 999;
     top: 50%;
+    left: 50%;
     visibility: visible;
     transform: translate(-50%, -50%) scale(1);
     position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 999;
     height: 100vh;
 }
-.removeAlertBtn {
-    border: 2px solid white;
-    position: absolute;
-    top: 22px;
-    right: 22px;
-    border-radius: 50%;
-    line-height: 17px;
-    font-size: 28px;
+.removeAlertBtnSeePDF {
+    border-radius: 4px;
+    position: fixed;
+    top: 10px;
+    right: 16px;
+    font-size: 16px;
+    color: white;
+    padding: 7px 10px;
+    font-family: sans-serif;
+    background-color: #49AFCD;
+    border: none;
+    font-weight: 500;
+    z-index: 1000;
+}
+.removeAlertBtnSeePDF span {
+    font-family: Calibri;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+
+
+
+.pdf_scroll_container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.pdf_scroll_container::-webkit-scrollbar-track {
+    background: #F5F7FA;
+}
+
+.pdf_scroll_container::-webkit-scrollbar-thumb {
+    background-color: red;
+    border-radius: 10px;
+}
+
+.pdf_scroll_container::-webkit-scrollbar-thumb:hover {
+    background-color: #636363;
 }

@@ -58,7 +58,7 @@ let route = createBrowserRouter([
             {
                 path: "UpdateUserInformation/:id",
                 element: <PrivateRoute><UpdateUserInformation></UpdateUserInformation></PrivateRoute>,
-                loader: ({params})=> fetch(`http://localhost:5000/NPORSUserInformationGetId/${params?.id}`)
+                loader: ({params})=> fetch(`https://server.docswallat.com/UpdateUserDataGet/${params?.id}`)
             },
             {
                 path: "AdminSeeAllUser",

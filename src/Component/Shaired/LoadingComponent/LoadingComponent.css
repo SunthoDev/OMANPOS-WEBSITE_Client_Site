@@ -1,0 +1,30 @@
+.LoadingComponentParent {
+
+    background-color: #F5F7FA;
+}
+
+.LoadingComponentParent .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ABACAF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+}
+
+.loading-container {
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    margin: 0 32px;
+
+}
+
+/* 3F51B5 */

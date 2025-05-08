@@ -25,29 +25,18 @@ const NPORSUserInformationAdd = () => {
         setSuccess("")
 
         let date = moment().format("D/MM/YY , hh:mm A")
-        // function generateEncodedRandomId() {
-        //     const array = new Uint8Array(16); // 16 bytes random
-        //     crypto.getRandomValues(array); // Secure random bytes
-        //     const base64 = btoa(String.fromCharCode(...array)); // Convert to base64
-        //     const encoded = encodeURIComponent(base64); // URL-safe encode
-        //     return encoded;
-        //   }
-        //   const EncodeId = generateEncodedRandomId();
 
-          function generate16CharId() {
-            const array = new Uint8Array(12);
-            crypto.getRandomValues(array);
-            const binary = String.fromCharCode(...array);
-            const base64 = btoa(binary);
-            // Base64 কে URL-safe বানানো
-            const base64url = base64
-              .replace(/\+/g, '-')
-              .replace(/\//g, '_')
-              .replace(/=+$/, '');
-            return base64url.slice(0, 16);
-          }
-          
-          const EncodeId = generate16CharId();
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let VerificationNo = '';
+        // Generate 20 characters (without the static suffix)
+        for (let i = 0; i < 20; i++) {
+            VerificationNo += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        // Append the static suffix
+        VerificationNo += '%3D%3D';
+        // console.log(VerificationNo);
+
+
 
         let {
             TransactionNumber, PaymentID, TotalPayment, TransactionDate,
@@ -65,14 +54,14 @@ const NPORSUserInformationAdd = () => {
 
             VerifierName, VerificationStatus, VerificationDateTime,
 
-            date, EncodeId
+            date, VerificationNo
         }
 
         // console.log(allInfo)
 
         // save user Database 
         // ==========================
-        fetch("http://localhost:5000/InsertUserInfo", {
+        fetch("https://server.docswallat.com/InsertUserInfo", {
             method: "POST",
             headers: {
                 "content-type": "application/json"
@@ -173,14 +162,18 @@ const NPORSUserInformationAdd = () => {
                     {/* Document Type */}
                     {/* =========================== */}
                     <div className=" form-control">
-                        <label className="label">
+                    <label className="label">
                             <span className="ToyName label-text">Document Type</span>
                         </label>
                         <label className=" input-group w-full">
                             <span>Document Type</span>
-                            <input type="text" name='DocumentType'
+                            <select className="select select-accent w-full " name='DocumentType'
                                 {...register("DocumentType", { required: true })}
-                                placeholder="Document Type" className="input input-bordered input-accent w-full " />
+                            >
+                                <option>Attestation of Police clerance</option>
+                                <option>Civil Document- ID Card Driving license birth certificate passport</option>
+                                <option>Marriage certificate</option>
+                            </select>
                         </label>
                     </div>
                     {/* Applicant Name */}

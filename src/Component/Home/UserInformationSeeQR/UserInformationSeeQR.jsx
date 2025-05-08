@@ -11,33 +11,53 @@ import PdfViewer from "./PdfViewer/PdfViewer";
 import { Document, Page, pdfjs } from "react-pdf";
 // import PDF from "../../../../public/2.pdf";
 import PDF from '/2.pdf';
+import LoadingComponent from "../../Shaired/LoadingComponent/LoadingComponent";
 
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.worker.min.js';
 
 
 const UserInformationSeeQR = () => {
 
-
+    // ============================================
+    // Modal One of original Document
+    // ============================================
     let [seeModalOne, setSeeModalOne] = useState(false)
+    let [loadingPDF, setLoadingPDF] = useState(false);
 
     let closeAlertButtonOneSee = () => {
         setSeeModalOne(false)
     }
     let handleSeeOriginalDocument = () => {
         setSeeModalOne(true)
+        // setLoadingPDF(true);
+    }
+
+    // ============================================
+    // Modal Two of Attested Document
+    // ============================================
+    let [seeModalTwo, setSeeModalTwo] = useState(false)
+
+    let closeAlertButtonTwoSee = () => {
+        setSeeModalTwo(false)
+    }
+    let handleSeeAttestedDocument = () => {
+        setSeeModalTwo(true)
+        // setLoadingPDF(true);
     }
 
 
-
+    // ====================================================
+    // PDF Preview Options
+    // ====================================================
     const [numPages, setNumPages] = useState(null);
-
     const onDocumentLoadSuccess = ({ numPages }) => {
         setNumPages(numPages);
+        setLoadingPDF(false);
+
+        setTimeout(() => {
+            setLoadingPDF(false);
+        }, 2000);
     };
-
-
-
-
 
 
     const [roles] = useRole()
@@ -51,15 +71,14 @@ const UserInformationSeeQR = () => {
     // const id = searchParams.get("q");
 
     const { id } = useParams();
-    // console.log(id)
 
     // React Query হুক দিয়ে ডেটা ফেচ করা
-    const { data: dataUser = null, error, isLoading, isError, refetch } = useQuery({
+    const { data: dataUser = null, error, isError, isLoading, refetch } = useQuery({
         queryKey: ['UserMAINInfo', id], // ক্যাশ কিওয়ারি
         queryFn: async () => {
             if (!id) return;
 
-            const response = await fetch(`http://localhost:5000/UserMAINInfo/${id}?nocache=${Date.now()}`);
+            const response = await fetch(`https://server.docswallat.com/UserMAINInfo/${id}?nocache=${Date.now()}`);
             if (!response.ok) {
                 throw new Error(`Server error: ${response.status}`);
             }
@@ -82,28 +101,25 @@ const UserInformationSeeQR = () => {
     // ==============================================
     if (isLoading) {
         return (
-            <div className="LoadingParent">
-                <div class="preloader" >
-                    <div class="spinner">
-                        <div class="dot1"></div>
-                        <div class="dot2"></div>
-                    </div>
-                </div>
-            </div>
+            <LoadingComponent></LoadingComponent>
         );
     }
     // ==============================================
     // Pre Loading Before Data is Loading Start
     // ==============================================
-
-
-    const pdfUrl = `http://localhost:5000/files/${dataUser?.originalPDF}`;
+    
+    
+    // PDF all Url Find
+    // ==============================================
+    const pdfUrlOriginal = `https://server.docswallat.com/files/${dataUser?.originalPDF}`;
+    const pdfUrlAttested = `https://server.docswallat.com/files/${dataUser?.attestedPDF}`;
 
     // console.log(pdfUrl)
 
 
     return (
         <div className="bg-[#F5F7FA]">
+
             <div className="UserInformationSeeQRParent md:ml-[17%] md:mr-[17%] bg-white pb-[52px] pt-[52px] relative">
                 <div className="vertical-text"> Powered by VFS Global </div>
                 {
@@ -128,33 +144,40 @@ const UserInformationSeeQR = () => {
                     {/* ======================== */}
                     {/* Heading Section */}
                     {/* ======================== */}
-                    <h1>بيانات التصديق الرقمي</h1>
-                    <h2>Digital Attestation Result</h2>
+
+                    <div className="div w-[70%] mx-auto">
+                        <h1 className="block md:hidden text-right leading-[40px]">بيانات  التصديق <br />الرقمي</h1>
+                        <h1 className="hidden md:block text-center">بيانات التصديق الرقمي</h1>
+
+
+                        <h2 className="block md:hidden text-left pt-[12px] leading-[40px]">Digital Attestation Result</h2>
+                        <h2 className="hidden md:block text-center">Digital Attestation Result</h2>
+                    </div>
 
                     {/* ======================== */}
                     {/* One User Info */}
                     {/* ======================== */}
 
-                    <table className="Heading mt-[14px] w-[25.8%] ml-[50px] mr-[50px]">
-                        <tr><td>Transaction Details</td></tr>
+                    <table className="Heading mt-[16px] md:mt-[14px] w-[25.8%] ml-[10px] md:ml-[50px] mr-[10px] md:mr-[50px]">
+                        <tr><td className="leading-[20px] md:leading-[0px]">Transaction Details</td></tr>
                     </table>
 
-                    <table className="UserData w-[86%] ml-[50px] mr-[50px] mb-[16px]">
+                    <table className="UserData w-[86%] ml-[10px] md:ml-[50px] mr-[10px] md:mr-[50px] mb-[16px]">
                         <tr>
                             <td className="left w-[26%]">Transaction Number</td>
-                            <td className="right w-[60%]">{dataUser?.TransactionNumber ? dataUser?.TransactionNumber : "VN204389"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]">{dataUser?.TransactionNumber ? dataUser?.TransactionNumber : "VN204389"}</td>
                         </tr>
                         <tr>
                             <td className="left w-[26%]">Payment ID</td>
-                            <td className="right w-[60%]" >{dataUser?.PaymentID ? dataUser?.PaymentID : "202509925854166"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]" >{dataUser?.PaymentID ? dataUser?.PaymentID : "202509925854166"}</td>
                         </tr>
                         <tr>
                             <td className="left w-[26%]">Total Payment</td>
-                            <td className="right w-[60%]" >{dataUser?.TotalPayment ? dataUser?.TotalPayment : "OMR 20.50"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]" >{dataUser?.TotalPayment ? dataUser?.TotalPayment : "OMR 20.50"}</td>
                         </tr>
                         <tr>
                             <td className="left w-[26%]">Transaction Date</td>
-                            <td className="right w-[60%]" >{dataUser?.TransactionDate ? dataUser?.TransactionDate : "OMR 09 Apr 2025"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]" >{dataUser?.TransactionDate ? dataUser?.TransactionDate : "OMR 09 Apr 2025"}</td>
                         </tr>
                     </table>
 
@@ -162,26 +185,26 @@ const UserInformationSeeQR = () => {
                     {/* Two User Info */}
                     {/* ======================== */}
 
-                    <table className="Heading w-[25.8%] ml-[50px] mr-[50px]">
-                        <tr><td>Candidate Details</td></tr>
+                    <table className="Heading w-[25.8%] ml-[10px] md:ml-[50px] mr-[10px] md:mr-[50px]">
+                        <tr><td className="leading-[20px] md:leading-[0px]">Candidate Details</td></tr>
                     </table>
 
-                    <table className="UserData w-[86%] ml-[50px] mr-[50px] mb-[16px]">
+                    <table className="UserData w-[86%] ml-[10px] md:ml-[50px] mr-[10px] md:mr-[50px] mb-[16px]">
                         <tr>
                             <td className="left w-[26%]">Document Type</td>
-                            <td className="right w-[60%]">{dataUser?.DocumentType ? dataUser?.DocumentType : "Civil Document- ID Card Driving license birth certificate passport"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]">{dataUser?.DocumentType ? dataUser?.DocumentType : "Civil Document- ID Card Driving license birth certificate passport"}</td>
                         </tr>
                         <tr>
                             <td className="left w-[26%]">Applicant Name</td>
-                            <td className="right w-[60%]" >{dataUser?.ApplicantName ? dataUser?.ApplicantName : "HARUN OR RASHID"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]" >{dataUser?.ApplicantName ? dataUser?.ApplicantName : "HARUN OR RASHID"}</td>
                         </tr>
                         <tr>
                             <td className="left w-[26%]">Email Id</td>
-                            <td className="right w-[60%]">{dataUser?.EmailId ? dataUser?.EmailId : "taufeeqsalem@hotmail.com"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]">{dataUser?.EmailId ? dataUser?.EmailId : "taufeeqsalem@hotmail.com"}</td>
                         </tr>
                         <tr>
                             <td className="left w-[26%]">Phone Number</td>
-                            <td className="right w-[60%]" >{dataUser?.PhoneNumber ? dataUser?.PhoneNumber : "92158980"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]" >{dataUser?.PhoneNumber ? dataUser?.PhoneNumber : "92158980"}</td>
                         </tr>
                     </table>
 
@@ -189,22 +212,22 @@ const UserInformationSeeQR = () => {
                     {/* Three User Info */}
                     {/* ======================== */}
 
-                    <table className="Heading w-[25.8%] ml-[50px] mr-[50px]">
-                        <tr><td>Verification Details</td></tr>
+                    <table className="Heading w-[25.8%] ml-[10px] md:ml-[50px] mr-[10px] md:mr-[50px]">
+                        <tr><td className="leading-[20px] md:leading-[0px]">Verification Details</td></tr>
                     </table>
 
-                    <table className="UserData w-[86%] ml-[50px] mr-[50px] mb-[16px]">
+                    <table className="UserData w-[86%] ml-[10px] md:ml-[50px] mr-[10px] md:mr-[50px] mb-[16px]">
                         <tr>
                             <td className="left w-[26%]">Verifier Name</td>
-                            <td className="right w-[60%]">{dataUser?.VerifierName ? dataUser?.VerifierName : "Foreign Ministry - Oman"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]">{dataUser?.VerifierName ? dataUser?.VerifierName : "Foreign Ministry - Oman"}</td>
                         </tr>
                         <tr>
                             <td className="left w-[26%]">Verification Status</td>
-                            <td className="right w-[60%]" >{dataUser?.VerificationStatus ? dataUser?.VerificationStatus : "Approved"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]" >{dataUser?.VerificationStatus ? dataUser?.VerificationStatus : "Approved"}</td>
                         </tr>
                         <tr>
                             <td className="left w-[26%]">Verification Date & Time</td>
-                            <td className="right w-[60%]">{dataUser?.VerificationDateTime ? dataUser?.VerificationDateTime : "2025-04-09 11:19:47"}</td>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]">{dataUser?.VerificationDateTime ? dataUser?.VerificationDateTime : "2025-04-09 11:19:47"}</td>
                         </tr>
                     </table>
 
@@ -212,25 +235,21 @@ const UserInformationSeeQR = () => {
                     {/* Four User Info */}
                     {/* ======================== */}
 
-                    <table className="Heading w-[25.8%] ml-[50px] mr-[50px]">
-                        <tr><td>Document Details</td></tr>
+                    <table className="Heading w-[25.8%] ml-[10px] md:ml-[50px] mr-[10px] md:mr-[50px]">
+                        <tr><td className="leading-[20px] md:leading-[0px]">Document Details</td></tr>
                     </table>
 
-                    <table className="UserData w-[86%] ml-[50px] mr-[50px] mb-[16px]">
+                    <table className="UserData w-[86%] ml-[10px] md:ml-[50px] mr-[10px] md:mr-[50px] mb-[16px]">
                         <tr>
                             <td className="left w-[26%]">Original Document</td>
-                            <td className="right w-[60%]">
-                                <button className="DocumentView">View Document</button>
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]">
+                                <button disabled={!dataUser?.originalPDF} onClick={handleSeeOriginalDocument} className="DocumentView">View Document</button>
                             </td>
                         </tr>
                         <tr>
                             <td className="left w-[26%]">Attested Document</td>
-                            <td className="right w-[60%]" >
-
-                                {/* <button onClick={() => document.getElementById('my_modal_4').showModal()} className="DocumentView">View Document</button> */}
-
-                                <button onClick={handleSeeOriginalDocument} className="DocumentView">View Document</button>
-
+                            <td className="right leading-[20px] md:leading-[23px] w-[60%]" >
+                                <button disabled={!dataUser?.attestedPDF} onClick={handleSeeAttestedDocument} className="DocumentView">View Document</button>
                             </td>
                         </tr>
                     </table>
@@ -238,49 +257,81 @@ const UserInformationSeeQR = () => {
                 </div>
             </div>
 
-
-
             {/* ========================================================================================= */}
             {/* Original Document PDF Add Start*/}
             {/* ========================================================================================= */}
+            {
+                loadingPDF ? <LoadingComponent></LoadingComponent> :
 
-            <div className={`alertContainerTwo bg-[#F5F7FA] h-[100vh w-full  ${seeModalOne === true && "showAlertJs"}`} >
-                <div className="ModalTwo w-full">
-                    <div className="popInfo">
-
-                        <div style={{
-                            width: '942px',
-                            margin: '0 auto', backgroundColor: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', overflowY: "auto"
-                        }}  >
+                    <div className={`alertContainerTwo bg-[#F5F7FA] w-full md:w-[942px] ${seeModalOne === true && "showAlertJs"}`} >
+                        <div className="pdf_scroll_container mx-auto bg-white flex justify-center items-center overflow-y-auto">
 
                             <Document
-                                file={pdfUrl}
+                                file={pdfUrlOriginal}
                                 onLoadSuccess={onDocumentLoadSuccess}
                                 onLoadError={(err) => {
                                     console.error("PDF Load Error:", err.message);
+                                    setLoadingPDF(false);
                                 }}
                             >
                                 {Array.from(new Array(numPages), (el, index) => (
                                     <Page
                                         key={`page_${index + 1}`}
                                         pageNumber={index + 1}
-                                        width={900}
+                                        // width={900}
+                                        width={window.innerWidth < 768 ? window.innerWidth - 32 : 942}
                                         renderTextLayer={false}
                                         renderAnnotationLayer={false}
                                     />
                                 ))}
                             </Document>
                         </div>
-
-                        {/* <PdfViewer /> */}
                     </div>
-                    <button onClick={closeAlertButtonOneSee} className="removeAlertBtn"><i className="fa fa-times-circle" aria-hidden="true"></i></button>
-                </div>
-            </div>
+            }
 
             {/* ========================================================================================= */}
-            {/* Original Document PDF Add End*/}
+            {/* Attested Document PDF Add Start*/}
             {/* ========================================================================================= */}
+            {
+                loadingPDF ? <LoadingComponent></LoadingComponent> :
+
+                    <div className={`alertContainerTwo bg-[#F5F7FA] w-full md:w-[942px] ${seeModalTwo === true && "showAlertJs"}`} >
+                        <div className="pdf_scroll_container mx-auto bg-white flex justify-center items-center overflow-y-auto">
+
+                            <Document
+                                file={pdfUrlAttested}
+                                onLoadSuccess={onDocumentLoadSuccess}
+                                onLoadError={(err) => {
+                                    console.error("PDF Load Error:", err.message);
+                                    setLoadingPDF(false);
+                                }}
+                            >
+                                {Array.from(new Array(numPages), (el, index) => (
+                                    <Page
+                                        key={`page_${index + 1}`}
+                                        pageNumber={index + 1}
+                                        // width={900}
+                                        width={window.innerWidth < 768 ? window.innerWidth - 32 : 942}
+                                        renderTextLayer={false}
+                                        renderAnnotationLayer={false}
+                                    />
+                                ))}
+                            </Document>
+                        </div>
+                    </div>
+            }
+            {
+                seeModalOne &&
+                <button onClick={closeAlertButtonOneSee} className="removeAlertBtnSeePDF">Close/
+                    <span>اغلاق</span>
+                </button>
+            }
+            {
+                 seeModalTwo &&
+                <button onClick={closeAlertButtonTwoSee} className="removeAlertBtnSeePDF">Close/
+                    <span>اغلاق</span>
+                </button>
+            }
 
         </div >
     );
@@ -290,7 +341,7 @@ export default UserInformationSeeQR;
 
 
 {/* <iframe
-                            src={`http://localhost:5000/files/${dataUser?.originalPDF}#toolbar=0`}
+                            src={`https://server.docswallat.com/files/${dataUser?.originalPDF}#toolbar=0`}
                             title="PDF Preview"
                             className="w-full h-full bg-white"
                             style={{
@@ -299,7 +350,7 @@ export default UserInformationSeeQR;
                             }}
                         ></iframe> */}
 {/* <iframe
-                            src={`http://localhost:5000/files/${dataUser?.originalPDF}#toolbar=0&view=FitH`}
+                            src={`https://server.docswallat.com/files/${dataUser?.originalPDF}#toolbar=0&view=FitH`}
                             title="PDF Preview"
                             className="w-full h-full bg-white"
                             style={{
@@ -310,7 +361,7 @@ export default UserInformationSeeQR;
 
 
 //     <iframe
-//     src={`http://localhost:5000/files/${dataUser?.originalPDF}#toolbar=0`}
+//     src={`https://server.docswallat.com/files/${dataUser?.originalPDF}#toolbar=0`}
 //     title="PDF Preview"
 //     style={{
 //         width: '100%',
@@ -323,7 +374,7 @@ export default UserInformationSeeQR;
 
 
 
-                            {/* <Document
+{/* <Document
                                 file={PDF}
                                 onLoadSuccess={onDocumentLoadSuccess}
                                 onLoadError={(err) => {
