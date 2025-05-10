@@ -1,36 +1,20 @@
 import React, { useState } from "react";
-import { Document, Page } from 'react-pdf';
-import PDF from "../../../../../public/2.pdf";
+import "./PdfViewerLoading.css";
 
-let PdfViewer = () => {
-
-  const [numPages, setNumPages] = useState(null);
-
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-  }
-
+let PdfViewerLoading = () => {
 
   return (
-    <div>
-
-      <Document file={PDF} onLoadSuccess={onDocumentLoadSuccess}>
-        {
-          Array(numPages).fill().map((_, i) => (
-
-            <Page pageNumber={i + 1}></Page>
-          ))
-        }
-
-      </Document>
-
-    </div>
+        <div className="PdfViewerLoadingParent">
+            <div className="loading-overlay">
+                {/* <div className="loading_overlay"> */}
+                    <div className="Spinner"></div>
+                {/* </div> */}
+            </div>
+        </div>
   );
-
-
 };
 
-export default PdfViewer;
+export default PdfViewerLoading;
 
 
 

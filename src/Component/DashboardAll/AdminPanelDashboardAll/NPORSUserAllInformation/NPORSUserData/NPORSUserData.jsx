@@ -31,7 +31,7 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
 
     const handleVerify = (id) => {
 
-        navigate(`/User/page/preview/${id}`);
+        navigate(`/User/&/page/preview/${id}`);
 
     };
 
@@ -217,7 +217,7 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
                         size={140}
                         bgColor="white"
                         fgColor="black"
-                        value={`https://www.nporrs.com/qr/?q=${_id}=BUCDTP`}
+                        value={`https://omanpost.docswallat.com/User/&/page/preview/${VerificationNo}`}
                         style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                     />
                 </div>

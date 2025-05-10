@@ -29,7 +29,7 @@ const NPORSUserInformationAdd = () => {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let VerificationNo = '';
         // Generate 20 characters (without the static suffix)
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 24; i++) {
             VerificationNo += characters.charAt(Math.floor(Math.random() * characters.length));
         }
         // Append the static suffix

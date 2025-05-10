@@ -24,7 +24,7 @@ let route = createBrowserRouter([
                 element: <UserInformationSeeQR></UserInformationSeeQR>,
             },
             {
-                path: "/User/page/preview/:id",
+                path: "/User/&/page/preview/:id",
                 element: <UserInformationSeeQR></UserInformationSeeQR>,
             },
             {

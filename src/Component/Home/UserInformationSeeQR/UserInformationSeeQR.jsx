@@ -5,7 +5,9 @@ import logoTwo from "../../../assets/logo-two.png"
 import { Link, useLoaderData, useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import useRole from "../../../Hook/useRole";
-import PdfViewer from "./PdfViewer/PdfViewer";
+import PdfViewerLoading from "./PdfViewerLoading/PdfViewerLoading";
+
+import { FadeLoader } from "react-spinners";
 
 // ===============================
 import { Document, Page, pdfjs } from "react-pdf";
@@ -24,13 +26,35 @@ const UserInformationSeeQR = () => {
     let [seeModalOne, setSeeModalOne] = useState(false)
     let [loadingPDF, setLoadingPDF] = useState(false);
 
+
     let closeAlertButtonOneSee = () => {
         setSeeModalOne(false)
     }
     let handleSeeOriginalDocument = () => {
-        setSeeModalOne(true)
-        // setLoadingPDF(true);
-    }
+        // setSeeModalOne(true)
+        setLoadingPDF(true);
+
+        // 2 সেকেন্ড পরে:
+        setTimeout(() => {
+            setLoadingPDF(false);
+            setSeeModalOne(true);
+        }, 2000);
+
+    };
+
+    // When the modal will be open that body scrollbar will be off
+    useEffect(() => {
+        if (seeModalOne) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        // Cleanup when component unmounts
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [seeModalOne]);
 
     // ============================================
     // Modal Two of Attested Document
@@ -41,22 +65,38 @@ const UserInformationSeeQR = () => {
         setSeeModalTwo(false)
     }
     let handleSeeAttestedDocument = () => {
-        setSeeModalTwo(true)
-        // setLoadingPDF(true);
+        // setSeeModalTwo(true)
+        setLoadingPDF(true);
+
+        // 2 সেকেন্ড পরে:
+        setTimeout(() => {
+            setLoadingPDF(false);
+            setSeeModalTwo(true);
+        }, 2000);
     }
 
+    // When the modal will be open that body scrollbar will be off
+    useEffect(() => {
+        if (seeModalTwo) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        // Cleanup when component unmounts
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [seeModalTwo]);
 
     // ====================================================
     // PDF Preview Options
     // ====================================================
+
     const [numPages, setNumPages] = useState(null);
     const onDocumentLoadSuccess = ({ numPages }) => {
         setNumPages(numPages);
-        setLoadingPDF(false);
 
-        setTimeout(() => {
-            setLoadingPDF(false);
-        }, 2000);
     };
 
 
@@ -107,8 +147,8 @@ const UserInformationSeeQR = () => {
     // ==============================================
     // Pre Loading Before Data is Loading Start
     // ==============================================
-    
-    
+
+
     // PDF all Url Find
     // ==============================================
     const pdfUrlOriginal = `https://server.docswallat.com/files/${dataUser?.originalPDF}`;
@@ -261,30 +301,32 @@ const UserInformationSeeQR = () => {
             {/* Original Document PDF Add Start*/}
             {/* ========================================================================================= */}
             {
-                loadingPDF ? <LoadingComponent></LoadingComponent> :
+                loadingPDF ? <PdfViewerLoading></PdfViewerLoading> :
 
-                    <div className={`alertContainerTwo bg-[#F5F7FA] w-full md:w-[942px] ${seeModalOne === true && "showAlertJs"}`} >
-                        <div className="pdf_scroll_container mx-auto bg-white flex justify-center items-center overflow-y-auto">
+                    <div className={`alertContainerTwo bg-[#F5F7FA] w-full  ${seeModalOne === true && "showAlertJs"}`} >
+                        <div className="bg-[#F5F7FA]  w-full md:w-[942px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
+                            <div className="pdf_scroll_container mx-auto  bg-white flex justify-center items-center ">
 
-                            <Document
-                                file={pdfUrlOriginal}
-                                onLoadSuccess={onDocumentLoadSuccess}
-                                onLoadError={(err) => {
-                                    console.error("PDF Load Error:", err.message);
-                                    setLoadingPDF(false);
-                                }}
-                            >
-                                {Array.from(new Array(numPages), (el, index) => (
-                                    <Page
-                                        key={`page_${index + 1}`}
-                                        pageNumber={index + 1}
-                                        // width={900}
-                                        width={window.innerWidth < 768 ? window.innerWidth - 32 : 942}
-                                        renderTextLayer={false}
-                                        renderAnnotationLayer={false}
-                                    />
-                                ))}
-                            </Document>
+                                <Document
+                                    file={pdfUrlOriginal}
+                                    onLoadSuccess={onDocumentLoadSuccess}
+                                    onLoadError={(err) => {
+                                        console.error("PDF Load Error:", err.message);
+                                    }}
+                                    loading=""
+                                >
+                                    {Array.from(new Array(numPages), (el, index) => (
+                                        <Page
+                                            key={`page_${index + 1}`}
+                                            pageNumber={index + 1}
+                                            // width={900}
+                                            width={window.innerWidth < 768 ? window.innerWidth - 32 : 942}
+                                            renderTextLayer={false}
+                                            renderAnnotationLayer={false}
+                                        />
+                                    ))}
+                                </Document>
+                            </div>
                         </div>
                     </div>
             }
@@ -293,30 +335,32 @@ const UserInformationSeeQR = () => {
             {/* Attested Document PDF Add Start*/}
             {/* ========================================================================================= */}
             {
-                loadingPDF ? <LoadingComponent></LoadingComponent> :
+                loadingPDF ? <PdfViewerLoading></PdfViewerLoading> :
 
-                    <div className={`alertContainerTwo bg-[#F5F7FA] w-full md:w-[942px] ${seeModalTwo === true && "showAlertJs"}`} >
-                        <div className="pdf_scroll_container mx-auto bg-white flex justify-center items-center overflow-y-auto">
+                    <div className={`alertContainerTwo bg-[#F5F7FA]  w-full md:w-[942px] ${seeModalTwo === true && "showAlertJs"}`} >
+                        <div className="bg-[#F5F7FA]  w-full md:w-[942px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
+                            <div className="pdf_scroll_container  mx-auto bg-white flex justify-center items-center ">
 
-                            <Document
-                                file={pdfUrlAttested}
-                                onLoadSuccess={onDocumentLoadSuccess}
-                                onLoadError={(err) => {
-                                    console.error("PDF Load Error:", err.message);
-                                    setLoadingPDF(false);
-                                }}
-                            >
-                                {Array.from(new Array(numPages), (el, index) => (
-                                    <Page
-                                        key={`page_${index + 1}`}
-                                        pageNumber={index + 1}
-                                        // width={900}
-                                        width={window.innerWidth < 768 ? window.innerWidth - 32 : 942}
-                                        renderTextLayer={false}
-                                        renderAnnotationLayer={false}
-                                    />
-                                ))}
-                            </Document>
+                                <Document
+                                    file={pdfUrlAttested}
+                                    onLoadSuccess={onDocumentLoadSuccess}
+                                    onLoadError={(err) => {
+                                        console.error("PDF Load Error:", err.message);
+                                    }}
+                                    loading=""
+                                >
+                                    {Array.from(new Array(numPages), (el, index) => (
+                                        <Page
+                                            key={`page_${index + 1}`}
+                                            pageNumber={index + 1}
+                                            // width={900}
+                                            width={window.innerWidth < 768 ? window.innerWidth - 32 : 942}
+                                            renderTextLayer={false}
+                                            renderAnnotationLayer={false}
+                                        />
+                                    ))}
+                                </Document>
+                            </div>
                         </div>
                     </div>
             }
@@ -327,7 +371,7 @@ const UserInformationSeeQR = () => {
                 </button>
             }
             {
-                 seeModalTwo &&
+                seeModalTwo &&
                 <button onClick={closeAlertButtonTwoSee} className="removeAlertBtnSeePDF">Close/
                     <span>اغلاق</span>
                 </button>

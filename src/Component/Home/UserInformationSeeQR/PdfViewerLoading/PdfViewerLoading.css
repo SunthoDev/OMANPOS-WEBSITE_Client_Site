@@ -1,23 +1,23 @@
 
 
-.LoadingComponentParent {
+.PdfViewerLoadingParent {
   background-color: #F5F7FA;
 }
 
-.LoadingComponentParent .loading-overlay {
+.PdfViewerLoadingParent .loading-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #abacaf9c;
+  background-color: #abacaf3c;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-/* .loading_overlay {
+/* .PdfViewerLoadingParent .loading_overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -27,13 +27,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1001; 
+  z-index: 1800; 
 } */
 
-.Spinner {
+.PdfViewerLoadingParent .Spinner {
   width: 104px;
   height: 104px;
-  border: 10px solid #2B387D;
+  border: 10px solid #3F51B5;
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 1s linear infinite;
