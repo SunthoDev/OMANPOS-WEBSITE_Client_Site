@@ -304,8 +304,8 @@ const UserInformationSeeQR = () => {
                 loadingPDF ? <PdfViewerLoading></PdfViewerLoading> :
 
                     <div className={`alertContainerTwo bg-[#F5F7FA] w-full  ${seeModalOne === true && "showAlertJs"}`} >
-                        <div className="bg-[#F5F7FA]  w-full md:w-[942px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
-                            <div className="pdf_scroll_container mx-auto  bg-white flex justify-center items-center ">
+                        <div className="bg-[#F5F7FA]  w-full md:w-[1080px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
+                            <div className="mx-auto  bg-white flex justify-center items-center ">
 
                                 <Document
                                     file={pdfUrlOriginal}
@@ -313,16 +313,33 @@ const UserInformationSeeQR = () => {
                                     onLoadError={(err) => {
                                         console.error("PDF Load Error:", err.message);
                                     }}
-                                    loading=""
+                                    // loading={null}
+                                    loading={
+                                        <div className=" h-screen flex justify-center items-center">
+                                            {/* <div className="w-screen h-screen flex items-center justify-center"> */}
+                                            <div className="bar-spinner">
+                                                {[...Array(12)].map((_, i) => (
+                                                    <div key={i} className="bar" style={{ transform: `rotate(${i * 30}deg)` }}></div>
+                                                ))}
+                                            </div>
+                                            {/* </div> */}
+                                        </div>
+                                    }
                                 >
                                     {Array.from(new Array(numPages), (el, index) => (
                                         <Page
                                             key={`page_${index + 1}`}
                                             pageNumber={index + 1}
-                                            // width={900}
-                                            width={window.innerWidth < 768 ? window.innerWidth - 32 : 942}
+                                            width={window.innerWidth < 768 ? window.innerWidth - 32 : 1080}
+                                            // width={
+                                            //     (window.innerWidth < 768
+                                            //         ? (window.innerWidth - 32) / 2
+                                            //         : 958 / 2)
+                                            // }
+                                            // scale={2}
                                             renderTextLayer={false}
                                             renderAnnotationLayer={false}
+                                            loading={null}
                                         />
                                     ))}
                                 </Document>
@@ -337,9 +354,9 @@ const UserInformationSeeQR = () => {
             {
                 loadingPDF ? <PdfViewerLoading></PdfViewerLoading> :
 
-                    <div className={`alertContainerTwo bg-[#F5F7FA]  w-full md:w-[942px] ${seeModalTwo === true && "showAlertJs"}`} >
-                        <div className="bg-[#F5F7FA]  w-full md:w-[942px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
-                            <div className="pdf_scroll_container  mx-auto bg-white flex justify-center items-center ">
+                    <div className={`alertContainerTwo bg-[#F5F7FA]  w-full ${seeModalTwo === true && "showAlertJs"}`} >
+                        <div className="bg-[#F5F7FA]  w-full md:w-[1080px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
+                            <div className="mx-auto bg-white flex justify-center items-center ">
 
                                 <Document
                                     file={pdfUrlAttested}
@@ -347,16 +364,33 @@ const UserInformationSeeQR = () => {
                                     onLoadError={(err) => {
                                         console.error("PDF Load Error:", err.message);
                                     }}
-                                    loading=""
+                                    // loading={null}
+                                    loading={
+                                        <div className=" h-screen flex justify-center items-center">
+                                            {/* <div className="w-screen h-screen flex items-center justify-center"> */}
+                                            <div className="bar-spinner">
+                                                {[...Array(12)].map((_, i) => (
+                                                    <div key={i} className="bar" style={{ transform: `rotate(${i * 30}deg)` }}></div>
+                                                ))}
+                                            </div>
+                                            {/* </div> */}
+                                        </div>
+                                    }
                                 >
                                     {Array.from(new Array(numPages), (el, index) => (
                                         <Page
                                             key={`page_${index + 1}`}
                                             pageNumber={index + 1}
-                                            // width={900}
-                                            width={window.innerWidth < 768 ? window.innerWidth - 32 : 942}
+                                            width={window.innerWidth < 768 ? window.innerWidth - 32 : 1080}
+                                            // width={
+                                            //     (window.innerWidth < 768
+                                            //         ? (window.innerWidth - 32) / 2
+                                            //         : 958 / 2)
+                                            // }
+                                            // scale={2}
                                             renderTextLayer={false}
                                             renderAnnotationLayer={false}
+                                            loading={null}
                                         />
                                     ))}
                                 </Document>
