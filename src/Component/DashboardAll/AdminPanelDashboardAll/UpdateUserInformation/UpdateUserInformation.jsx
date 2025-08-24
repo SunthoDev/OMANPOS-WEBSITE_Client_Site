@@ -53,7 +53,7 @@ const UpdateUserInformation = () => {
 
         // Update User Information From Database 
         // ==========================
-        fetch(`https://server.docswallat.com/AdminUpdateUserInformation/${UserData?._id}`, {
+        fetch(`https://server.docswellet.com/AdminUpdateUserInformation/${UserData?._id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json"
@@ -109,7 +109,7 @@ const UpdateUserInformation = () => {
                             <span>{UserData?.TransactionNumber}</span>
                             <input type="text" name='TransactionNumberUP'
                                 {...register("TransactionNumberUP")}
-                               defaultValue={UserData?.TransactionNumber} placeholder="Transaction Number" className="input input-bordered input-accent w-full " />
+                                defaultValue={UserData?.TransactionNumber} placeholder="Transaction Number" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
 
@@ -136,7 +136,7 @@ const UpdateUserInformation = () => {
                             <span>{UserData?.TotalPayment}</span>
                             <input type="text" name='TotalPaymentUP'
                                 {...register("TotalPaymentUP")}
-                                defaultValue={UserData?.TotalPayment}  placeholder="Total Payment" className="input input-bordered input-accent w-full " />
+                                defaultValue={UserData?.TotalPayment} placeholder="Total Payment" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
                     {/* Transaction Date */}
@@ -149,13 +149,13 @@ const UpdateUserInformation = () => {
                             <span>{UserData?.TransactionDate}</span>
                             <input type="text" name='TransactionDateUP'
                                 {...register("TransactionDateUP")}
-                                defaultValue={UserData?.TransactionDate}  placeholder="Transaction Date" className="input input-bordered input-accent w-full " />
+                                defaultValue={UserData?.TransactionDate} placeholder="Transaction Date" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
                     {/* Document Type */}
                     {/* =========================== */}
                     <div className=" form-control">
-                    <label className="label">
+                        <label className="label">
                             <span className="ToyName label-text">Document Type</span>
                         </label>
                         <label className=" input-group w-full">
@@ -163,9 +163,50 @@ const UpdateUserInformation = () => {
                             <select className="select select-accent w-full " name='DocumentTypeUP'
                                 {...register("DocumentTypeUP")}
                             >
+                                <option>Marriage certificate</option>
                                 <option>Attestation of Police clerance</option>
                                 <option>Civil Document- ID Card Driving license birth certificate passport</option>
+                                <option>Trade agencies /original</option>
+                                <option>Duplicate copy trade agencies</option>
+                                <option>Trade contracts /original</option>
+                                <option>Duplicate copy trade contracts</option>
+                                <option>Certificate of origin /original</option>
+                                <option>Trade invoice From (1) to $10,000</option>
+                                <option>Trade invoice From $10,000 to $50,000</option>
+                                <option>Trade invoice From $50,000 to $100,000</option>
+                                <option>Trade invoice Above from $100,000</option>
                                 <option>Marriage certificate</option>
+                                <option>Divorce certificate</option>
+                                <option>Declaration of freedom from a wife</option>
+                                <option>Other commercial Document</option>
+                                <option>Commercial registration</option>
+                                <option>Chamber of commerce and industry membership</option>
+                                <option>Cargo manifest</option>
+                                <option>Closing accounts of companies</option>
+                                <option>Plans of companies’ projects</option>
+                                <option>Certificate of military equipment utilization</option>
+                                <option>Certificate of analysis of nutrients in foods</option>
+                                <option>Replacement of Lost Documents Commercial</option>
+                                <option>An employment certificate</option>
+                                <option>Civil Contracts - Other Statutory Agencies (Original Copy)</option>
+                                <option>Civil contracts - other regular agency - true copy</option>
+                                <option>Civil contracts - academic certificate - original copy</option>
+                                <option>Death certificate for Omanis who died outside the Sultanate</option>
+                                <option>Attestation of Death certificate</option>
+                                <option>Attestation of experience certificate</option>
+                                <option>Educational certificates (Omani students abroad) - Original</option>
+                                <option>Educational certificates (Omani students abroad) - Copy</option>
+                                <option>Medical certificates abroad - original</option>
+                                <option>Medical certificates abroad - true copy</option>
+                                <option>Replace lost civil documents</option>
+                                <option>Apostille (Civil Documents Only)</option>
+                                <option>Laboure clearances</option>
+                                <option>Attestation of Police clearance</option>
+                                <option>Civil Document - ID, License, Birth, Passport</option>
+                                <option>Education Certificate Original Copy</option>
+                                <option>Medical Report</option>
+                                <option>Diplomatic Delegation Category within Oman</option>
+                                <option>Social Security Category for Civil document Only</option>
                             </select>
                         </label>
                     </div>
@@ -179,7 +220,7 @@ const UpdateUserInformation = () => {
                             <span>{UserData?.ApplicantName}</span>
                             <input type="text" name='ApplicantNameUP'
                                 {...register("ApplicantNameUP")}
-                                defaultValue={UserData?.ApplicantName}  placeholder="Applicant Name" className="input input-bordered input-accent w-full " />
+                                defaultValue={UserData?.ApplicantName} placeholder="Applicant Name" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
                     {/* Email Id */}
@@ -231,7 +272,7 @@ const UpdateUserInformation = () => {
                             <span>{UserData?.VerificationStatus}</span>
                             <input type="text" name='VerificationStatusUP'
                                 {...register("VerificationStatusUP")}
-                                defaultValue={UserData?.VerificationStatus}  placeholder="Verification Status" className="input input-bordered input-accent w-full " />
+                                defaultValue={UserData?.VerificationStatus} placeholder="Verification Status" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
                     {/* Verification Date & Time */}
@@ -244,7 +285,7 @@ const UpdateUserInformation = () => {
                             <span>{UserData?.VerificationDateTime}</span>
                             <input type="text" name='VerificationDateTimeUP'
                                 {...register("VerificationDateTimeUP")}
-                                defaultValue={UserData?.VerificationDateTime}  placeholder="Verification Date & Time" className="input input-bordered input-accent w-full " />
+                                defaultValue={UserData?.VerificationDateTime} placeholder="Verification Date & Time" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
 

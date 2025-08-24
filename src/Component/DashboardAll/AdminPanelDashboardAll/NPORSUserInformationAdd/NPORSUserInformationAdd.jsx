@@ -61,7 +61,7 @@ const NPORSUserInformationAdd = () => {
 
         // save user Database 
         // ==========================
-        fetch("https://server.docswallat.com/InsertUserInfo", {
+        fetch("https://server.docswellet.com/InsertUserInfo", {
             method: "POST",
             headers: {
                 "content-type": "application/json"
@@ -90,8 +90,6 @@ const NPORSUserInformationAdd = () => {
     // Student Admission all Information Send Database End
     // =======================================================
 
-
-
     return (
         <div className='md:mx-20 mb-10'>
 
@@ -100,7 +98,6 @@ const NPORSUserInformationAdd = () => {
                     <h2 className="text-[48px]">DOCSWALLET DATA ENTRY</h2>
                 </div>
             </div>
-
 
             <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -162,17 +159,60 @@ const NPORSUserInformationAdd = () => {
                     {/* Document Type */}
                     {/* =========================== */}
                     <div className=" form-control">
-                    <label className="label">
+                        <label className="label">
                             <span className="ToyName label-text">Document Type</span>
                         </label>
                         <label className=" input-group w-full">
                             <span>Document Type</span>
-                            <select className="select select-accent w-full " name='DocumentType'
+                            <select
                                 {...register("DocumentType", { required: true })}
+                                className="select select-accent w-full "
+                                name='DocumentType'
                             >
+                                <option>Marriage certificate</option>
                                 <option>Attestation of Police clerance</option>
                                 <option>Civil Document- ID Card Driving license birth certificate passport</option>
+                                <option>Trade agencies /original</option>
+                                <option>Duplicate copy trade agencies</option>
+                                <option>Trade contracts /original</option>
+                                <option>Duplicate copy trade contracts</option>
+                                <option>Certificate of origin /original</option>
+                                <option>Trade invoice From (1) to $10,000</option>
+                                <option>Trade invoice From $10,000 to $50,000</option>
+                                <option>Trade invoice From $50,000 to $100,000</option>
+                                <option>Trade invoice Above from $100,000</option>
                                 <option>Marriage certificate</option>
+                                <option>Divorce certificate</option>
+                                <option>Declaration of freedom from a wife</option>
+                                <option>Other commercial Document</option>
+                                <option>Commercial registration</option>
+                                <option>Chamber of commerce and industry membership</option>
+                                <option>Cargo manifest</option>
+                                <option>Closing accounts of companies</option>
+                                <option>Plans of companies’ projects</option>
+                                <option>Certificate of military equipment utilization</option>
+                                <option>Certificate of analysis of nutrients in foods</option>
+                                <option>Replacement of Lost Documents Commercial</option>
+                                <option>An employment certificate</option>
+                                <option>Civil Contracts - Other Statutory Agencies (Original Copy)</option>
+                                <option>Civil contracts - other regular agency - true copy</option>
+                                <option>Civil contracts - academic certificate - original copy</option>
+                                <option>Death certificate for Omanis who died outside the Sultanate</option>
+                                <option>Attestation of Death certificate</option>
+                                <option>Attestation of experience certificate</option>
+                                <option>Educational certificates (Omani students abroad) - Original</option>
+                                <option>Educational certificates (Omani students abroad) - Copy</option>
+                                <option>Medical certificates abroad - original</option>
+                                <option>Medical certificates abroad - true copy</option>
+                                <option>Replace lost civil documents</option>
+                                <option>Apostille (Civil Documents Only)</option>
+                                <option>Laboure clearances</option>
+                                <option>Attestation of Police clearance</option>
+                                <option>Civil Document - ID, License, Birth, Passport</option>
+                                <option>Education Certificate Original Copy</option>
+                                <option>Medical Report</option>
+                                <option>Diplomatic Delegation Category within Oman</option>
+                                <option>Social Security Category for Civil document Only</option>
                             </select>
                         </label>
                     </div>
@@ -225,7 +265,7 @@ const NPORSUserInformationAdd = () => {
                             <span>Verifier Name</span>
                             <input type="text" name='VerifierName'
                                 {...register("VerifierName", { required: true })}
-                                placeholder="Verifier Name" className="input input-bordered input-accent w-full " />
+                                defaultValue="Foreign Ministry - Oman" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
                     {/* Verification Status */}
@@ -238,7 +278,7 @@ const NPORSUserInformationAdd = () => {
                             <span>Verification Status</span>
                             <input type="text" name='VerificationStatus'
                                 {...register("VerificationStatus", { required: true })}
-                                placeholder="Verification Status" className="input input-bordered input-accent w-full " />
+                                defaultValue="Approved" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
                     {/* Verification Date & Time */}
@@ -271,3 +311,5 @@ const NPORSUserInformationAdd = () => {
 };
 
 export default NPORSUserInformationAdd;
+
+

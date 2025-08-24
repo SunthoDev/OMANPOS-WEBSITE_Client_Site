@@ -101,7 +101,7 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
         // console.log(formData)
         setOriginalLoading(true)
         try {
-            const result = await axios.put(`https://server.docswallat.com/Original-upload-files/${OriginalId}`, formData, {
+            const result = await axios.put(`https://server.docswellet.com/Original-upload-files/${OriginalId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -159,7 +159,7 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
         // console.log(formData)
         setAttestedLoading(true)
         try {
-            const result = await axios.put(`https://server.docswallat.com/Attested-upload-files/${AttestedId}`, formData, {
+            const result = await axios.put(`https://server.docswellet.com/Attested-upload-files/${AttestedId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -217,7 +217,7 @@ const NPORSUserData = ({ NporsUserData, HandleDelete }) => {
                         size={140}
                         bgColor="white"
                         fgColor="black"
-                        value={`https://omanpost.docswallat.com/User/&/page/preview/${VerificationNo}`}
+                        value={`https://omanpost.docswellet.com/User/&/page/preview/${VerificationNo}`}
                         style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                     />
                 </div>

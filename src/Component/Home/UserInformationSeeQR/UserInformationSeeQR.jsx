@@ -118,7 +118,7 @@ const UserInformationSeeQR = () => {
         queryFn: async () => {
             if (!id) return;
 
-            const response = await fetch(`https://server.docswallat.com/UserMAINInfo/${id}?nocache=${Date.now()}`);
+            const response = await fetch(`https://server.docswellet.com/UserMAINInfo/${id}?nocache=${Date.now()}`);
             if (!response.ok) {
                 throw new Error(`Server error: ${response.status}`);
             }
@@ -148,13 +148,23 @@ const UserInformationSeeQR = () => {
     // Pre Loading Before Data is Loading Start
     // ==============================================
 
-
     // PDF all Url Find
     // ==============================================
-    const pdfUrlOriginal = `https://server.docswallat.com/files/${dataUser?.originalPDF}`;
-    const pdfUrlAttested = `https://server.docswallat.com/files/${dataUser?.attestedPDF}`;
+    const pdfUrlOriginal = `https://server.docswellet.com/files/${dataUser?.originalPDF}`;
+    const pdfUrlAttested = `https://server.docswellet.com/files/${dataUser?.attestedPDF}`;
 
     // console.log(pdfUrl)
+
+
+    //  If Data Is not found. It will be redirect in google
+    // ========================================================
+    useEffect(() => {
+        if (id && !isLoading) {
+            if (id && !dataUser || isError) {
+                window.location.href = "https://www.google.com";
+            }
+        }
+    }, [dataUser, isError, isLoading, id]);
 
 
     return (
@@ -304,7 +314,7 @@ const UserInformationSeeQR = () => {
                 loadingPDF ? <PdfViewerLoading></PdfViewerLoading> :
 
                     <div className={`alertContainerTwo bg-[#F5F7FA] w-full  ${seeModalOne === true && "showAlertJs"}`} >
-                        <div className="bg-[#F5F7FA]  w-full md:w-[1080px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
+                        <div className="bg-[#F5F7FA] w-full md:w-[1080px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
                             <div className="mx-auto  bg-white flex justify-center items-center ">
 
                                 <Document
@@ -313,16 +323,15 @@ const UserInformationSeeQR = () => {
                                     onLoadError={(err) => {
                                         console.error("PDF Load Error:", err.message);
                                     }}
-                                    // loading={null}
                                     loading={
                                         <div className=" h-screen flex justify-center items-center">
-                                            {/* <div className="w-screen h-screen flex items-center justify-center"> */}
-                                            <div className="bar-spinner">
-                                                {[...Array(12)].map((_, i) => (
-                                                    <div key={i} className="bar" style={{ transform: `rotate(${i * 30}deg)` }}></div>
-                                                ))}
+                                            <div className="w-screen h-screen flex items-center justify-center">
+                                                <div className="bar-spinner">
+                                                    {[...Array(12)].map((_, i) => (
+                                                        <div key={i} className="bar" style={{ transform: `rotate(${i * 30}deg)` }}></div>
+                                                    ))}
+                                                </div>
                                             </div>
-                                            {/* </div> */}
                                         </div>
                                     }
                                 >
@@ -331,12 +340,12 @@ const UserInformationSeeQR = () => {
                                             key={`page_${index + 1}`}
                                             pageNumber={index + 1}
                                             width={window.innerWidth < 768 ? window.innerWidth - 32 : 1080}
-                                            // width={
-                                            //     (window.innerWidth < 768
-                                            //         ? (window.innerWidth - 32) / 2
-                                            //         : 958 / 2)
-                                            // }
                                             // scale={2}
+                                            // width={
+                                            //     window.innerWidth < 768
+                                            //         ? window.innerWidth * 0.95
+                                            //         : 958
+                                            // }
                                             renderTextLayer={false}
                                             renderAnnotationLayer={false}
                                             loading={null}
@@ -354,8 +363,8 @@ const UserInformationSeeQR = () => {
             {
                 loadingPDF ? <PdfViewerLoading></PdfViewerLoading> :
 
-                    <div className={`alertContainerTwo bg-[#F5F7FA]  w-full ${seeModalTwo === true && "showAlertJs"}`} >
-                        <div className="bg-[#F5F7FA]  w-full md:w-[1080px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
+                    <div className={`alertContainerTwo bg-[#F5F7FA] w-full ${seeModalTwo === true && "showAlertJs"}`} >
+                        <div className="bg-[#F5F7FA] w-full md:w-[1080px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
                             <div className="mx-auto bg-white flex justify-center items-center ">
 
                                 <Document
@@ -364,16 +373,15 @@ const UserInformationSeeQR = () => {
                                     onLoadError={(err) => {
                                         console.error("PDF Load Error:", err.message);
                                     }}
-                                    // loading={null}
                                     loading={
                                         <div className=" h-screen flex justify-center items-center">
-                                            {/* <div className="w-screen h-screen flex items-center justify-center"> */}
+                                            <div className="w-screen h-screen flex items-center justify-center">
                                             <div className="bar-spinner">
                                                 {[...Array(12)].map((_, i) => (
                                                     <div key={i} className="bar" style={{ transform: `rotate(${i * 30}deg)` }}></div>
                                                 ))}
                                             </div>
-                                            {/* </div> */}
+                                            </div>
                                         </div>
                                     }
                                 >
@@ -382,12 +390,12 @@ const UserInformationSeeQR = () => {
                                             key={`page_${index + 1}`}
                                             pageNumber={index + 1}
                                             width={window.innerWidth < 768 ? window.innerWidth - 32 : 1080}
+                                            //  scale={2}
                                             // width={
-                                            //     (window.innerWidth < 768
-                                            //         ? (window.innerWidth - 32) / 2
-                                            //         : 958 / 2)
+                                            //     window.innerWidth < 768
+                                            //         ? window.innerWidth * 0.95
+                                            //         : 958
                                             // }
-                                            // scale={2}
                                             renderTextLayer={false}
                                             renderAnnotationLayer={false}
                                             loading={null}
@@ -419,7 +427,7 @@ export default UserInformationSeeQR;
 
 
 {/* <iframe
-                            src={`https://server.docswallat.com/files/${dataUser?.originalPDF}#toolbar=0`}
+                            src={`https://server.docswellet.com/files/${dataUser?.originalPDF}#toolbar=0`}
                             title="PDF Preview"
                             className="w-full h-full bg-white"
                             style={{
@@ -428,7 +436,7 @@ export default UserInformationSeeQR;
                             }}
                         ></iframe> */}
 {/* <iframe
-                            src={`https://server.docswallat.com/files/${dataUser?.originalPDF}#toolbar=0&view=FitH`}
+                            src={`https://server.docswellet.com/files/${dataUser?.originalPDF}#toolbar=0&view=FitH`}
                             title="PDF Preview"
                             className="w-full h-full bg-white"
                             style={{
@@ -436,37 +444,3 @@ export default UserInformationSeeQR;
                                 backgroundColor: "white",
                             }}
                         ></iframe> */}
-
-
-//     <iframe
-//     src={`https://server.docswallat.com/files/${dataUser?.originalPDF}#toolbar=0`}
-//     title="PDF Preview"
-//     style={{
-//         width: '100%',
-//         height: '100%',
-//         border: 'none',
-//         backgroundColor: 'white', // PDF এর ব্যাকগ্রাউন্ড সাদ
-//     }}
-// />
-
-
-
-
-{/* <Document
-                                file={PDF}
-                                onLoadSuccess={onDocumentLoadSuccess}
-                                onLoadError={(err) => {
-                                    console.error("PDF Load Error:", err.message);
-                                }}
-                            >
-                                {numPages &&
-                                    Array.from({ length: numPages }, (_, i) => (
-                                        <Page
-                                            key={`page_${i + 1}`}
-                                            pageNumber={i + 1}
-                                            width={900}
-                                            renderTextLayer={false}
-                                            renderAnnotationLayer={false}
-                                        />
-                                    ))}
-                            </Document> */}
