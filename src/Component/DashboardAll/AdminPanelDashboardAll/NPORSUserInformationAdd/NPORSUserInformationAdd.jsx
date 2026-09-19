@@ -43,7 +43,9 @@ const NPORSUserInformationAdd = () => {
 
             DocumentType, ApplicantName, EmailId, PhoneNumber,
 
-            VerifierName, VerificationStatus, VerificationDateTime
+            VerifierName, VerificationStatus, VerificationDateTime,
+
+            VerifyBy, VerifyAt, ApproverName, // <-- Added new fields
         } = data
 
         let allInfo = {
@@ -53,6 +55,8 @@ const NPORSUserInformationAdd = () => {
             DocumentType, ApplicantName, EmailId, PhoneNumber,
 
             VerifierName, VerificationStatus, VerificationDateTime,
+
+            VerifyBy, VerifyAt, ApproverName, // <-- Added new fields
 
             date, VerificationNo
         }
@@ -294,7 +298,47 @@ const NPORSUserInformationAdd = () => {
                                 placeholder="Verification Date & Time" className="input input-bordered input-accent w-full " />
                         </label>
                     </div>
+                    {/* ======================================================= */}
+                    {/* === ADDED NEW FIELDS START HERE ======================== */}
+                    {/* ======================================================= */}
+                    {/* Verify By */}
+                    <div className=" form-control">
+                        <label className="label">
+                            <span className="ToyName label-text">Verify By</span>
+                        </label>
+                        <label className="w-full input-group">
+                            <span>Verify By</span>
+                            <input type="text" name='VerifyBy'
+                                {...register("VerifyBy", { required: true })}
+                                placeholder="e.g., Salah 1" className="w-full input input-bordered input-accent " />
+                        </label>
+                    </div>
 
+                    {/* Verify At */}
+                    <div className=" form-control">
+                        <label className="label">
+                            <span className="ToyName label-text">Verify At</span>
+                        </label>
+                        <label className="w-full input-group">
+                            <span>Verify At</span>
+                            <input type="text" name='VerifyAt'
+                                {...register("VerifyAt", { required: true })}
+                                placeholder="e.g., Salalah" className="w-full input input-bordered input-accent " />
+                        </label>
+                    </div>
+
+                    {/* Approver Name */}
+                    <div className=" form-control">
+                        <label className="label">
+                            <span className="ToyName label-text">Approver Name</span>
+                        </label>
+                        <label className="w-full input-group">
+                            <span>Approver Name</span>
+                            <input type="text" name='ApproverName'
+                                {...register("ApproverName", { required: true })}
+                                placeholder="Approver's Name" className="w-full input input-bordered input-accent " />
+                        </label>
+                    </div>
                 </div>
 
                 {/* ============================ */}

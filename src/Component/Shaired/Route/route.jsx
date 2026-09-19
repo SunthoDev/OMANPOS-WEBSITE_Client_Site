@@ -46,14 +46,14 @@ let route = createBrowserRouter([
         path: "dashboard",
         element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children: [
-
             {
                 path: "NPORSUserInformationAdd",
                 element: <PrivateRoute><NPORSUserInformationAdd></NPORSUserInformationAdd></PrivateRoute>
             },
             {
                 path: "NPORSUserAllInformation",
-                element: <PrivateRoute><NPORSUserAllInformation></NPORSUserAllInformation></PrivateRoute>
+                element: <PrivateRoute><NPORSUserAllInformation></NPORSUserAllInformation></PrivateRoute>,
+                loader: ()=> fetch("https://server.docswellet.com/totalUserCount")
             },
             {
                 path: "UpdateUserInformation/:id",
@@ -64,7 +64,6 @@ let route = createBrowserRouter([
                 path: "AdminSeeAllUser",
                 element: <PrivateRoute><AdminSeeAllUser></AdminSeeAllUser></PrivateRoute>
             }
-
         ]
     },
     {

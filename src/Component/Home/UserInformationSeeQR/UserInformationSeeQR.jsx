@@ -6,7 +6,7 @@ import { Link, useLoaderData, useParams, useSearchParams } from "react-router-do
 import { useQuery } from '@tanstack/react-query';
 import useRole from "../../../Hook/useRole";
 import PdfViewerLoading from "./PdfViewerLoading/PdfViewerLoading";
-
+import QRCode from "react-qr-code";
 import { FadeLoader } from "react-spinners";
 
 // ===============================
@@ -96,7 +96,6 @@ const UserInformationSeeQR = () => {
     const [numPages, setNumPages] = useState(null);
     const onDocumentLoadSuccess = ({ numPages }) => {
         setNumPages(numPages);
-
     };
 
 
@@ -135,6 +134,17 @@ const UserInformationSeeQR = () => {
     // =====================================================================================
     // We are received data from use params | 1st come component after load all data End
     // =====================================================================================
+    //  If Data Is not found. It will be redirect in google
+    // ========================================================
+    useEffect(() => {
+        if (id && !isLoading) {
+            if (id && !dataUser || isError) {
+                window.location.href = "https://www.google.com";
+            }
+        }
+    }, [dataUser, isError, isLoading, id]);
+
+
 
     // ==============================================
     // Pre Loading Before Data is Loading Start
@@ -155,16 +165,6 @@ const UserInformationSeeQR = () => {
 
     // console.log(pdfUrl)
 
-
-    //  If Data Is not found. It will be redirect in google
-    // ========================================================
-    useEffect(() => {
-        if (id && !isLoading) {
-            if (id && !dataUser || isError) {
-                window.location.href = "https://www.google.com";
-            }
-        }
-    }, [dataUser, isError, isLoading, id]);
 
 
     return (
@@ -314,7 +314,7 @@ const UserInformationSeeQR = () => {
                 loadingPDF ? <PdfViewerLoading></PdfViewerLoading> :
 
                     <div className={`alertContainerTwo bg-[#F5F7FA] w-full  ${seeModalOne === true && "showAlertJs"}`} >
-                        <div className="bg-[#F5F7FA] w-full md:w-[1080px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
+                        <div className="bg-[#F5F7FA] w-full md:w-[960px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
                             <div className="mx-auto  bg-white flex justify-center items-center ">
 
                                 <Document
@@ -336,20 +336,29 @@ const UserInformationSeeQR = () => {
                                     }
                                 >
                                     {Array.from(new Array(numPages), (el, index) => (
-                                        <Page
-                                            key={`page_${index + 1}`}
-                                            pageNumber={index + 1}
-                                            width={window.innerWidth < 768 ? window.innerWidth - 32 : 1080}
-                                            // scale={2}
-                                            // width={
-                                            //     window.innerWidth < 768
-                                            //         ? window.innerWidth * 0.95
-                                            //         : 958
-                                            // }
-                                            renderTextLayer={false}
-                                            renderAnnotationLayer={false}
-                                            loading={null}
-                                        />
+                                        <div key={`page_wrapper_${index}`}
+                                            style={{
+                                                ppaddingBottom: "32px",
+                                                borderBottom: "10px solid #F5F7FA", // ⬅️ নিচে ১০px red border
+                                            }}
+                                        >
+
+                                            <Page
+                                                key={`page_${index + 1}`}
+                                                pageNumber={index + 1}
+                                                width={window.innerWidth < 768 ? window.innerWidth - 32 : 960}
+                                                // scale={2}
+                                                // width={
+                                                //     window.innerWidth < 768
+                                                //         ? window.innerWidth * 0.95
+                                                //         : 958
+                                                // }
+                                                renderTextLayer={false}
+                                                renderAnnotationLayer={false}
+                                                loading={null}
+                                            />
+
+                                        </div>
                                     ))}
                                 </Document>
                             </div>
@@ -364,8 +373,8 @@ const UserInformationSeeQR = () => {
                 loadingPDF ? <PdfViewerLoading></PdfViewerLoading> :
 
                     <div className={`alertContainerTwo bg-[#F5F7FA] w-full ${seeModalTwo === true && "showAlertJs"}`} >
-                        <div className="bg-[#F5F7FA] w-full md:w-[1080px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
-                            <div className="mx-auto bg-white flex justify-center items-center ">
+                        <div className="bg-[#F5F7FA] w-full md:w-[960px] mx-auto max-h-[100vh] overflow-y-auto overflow-x-hidden">
+                            <div className="mx-auto bg-white flex justify-center items-center">
 
                                 <Document
                                     file={pdfUrlAttested}
@@ -374,34 +383,135 @@ const UserInformationSeeQR = () => {
                                         console.error("PDF Load Error:", err.message);
                                     }}
                                     loading={
-                                        <div className=" h-screen flex justify-center items-center">
+                                        <div className="h-screen flex justify-center items-center">
                                             <div className="w-screen h-screen flex items-center justify-center">
-                                            <div className="bar-spinner">
-                                                {[...Array(12)].map((_, i) => (
-                                                    <div key={i} className="bar" style={{ transform: `rotate(${i * 30}deg)` }}></div>
-                                                ))}
-                                            </div>
+                                                <div className="bar-spinner">
+                                                    {[...Array(12)].map((_, i) => (
+                                                        <div key={i} className="bar" style={{ transform: `rotate(${i * 30}deg)` }}></div>
+                                                    ))}
+                                                </div>
                                             </div>
                                         </div>
                                     }
                                 >
                                     {Array.from(new Array(numPages), (el, index) => (
-                                        <Page
-                                            key={`page_${index + 1}`}
-                                            pageNumber={index + 1}
-                                            width={window.innerWidth < 768 ? window.innerWidth - 32 : 1080}
-                                            //  scale={2}
-                                            // width={
-                                            //     window.innerWidth < 768
-                                            //         ? window.innerWidth * 0.95
-                                            //         : 958
-                                            // }
-                                            renderTextLayer={false}
-                                            renderAnnotationLayer={false}
-                                            loading={null}
-                                        />
+                                        <div key={`page_wrapper_${index}`}
+
+                                            className="PDFMainParent"
+                                            style={{
+                                                // display: 'flex',
+                                                // flexDirection: 'column',
+                                                // alignItems: 'left',
+
+                                                width: 960,              // White page কে 960px রাখছি
+                                                maxWidth: "100%",        // responsive: small screens এ ফিট হব
+
+                                                borderBottom: "10px solid #F5F7FA", // ⬅️ নিচে ১০px red border
+                                            }}
+                                        >
+                                            <div className="w-[100%] flex justify-center items-center">
+                                                <Page
+                                                    key={`page_${index + 1}`}
+                                                    pageNumber={index + 1}
+                                                    width={window.innerWidth < 768 ? window.innerWidth - 120 : 640}
+                                                    renderTextLayer={false}
+                                                    renderAnnotationLayer={false}
+                                                    loading={null}
+                                                />
+                                            </div>
+
+
+                                            <div className="wrapper">
+                                                <div className="PDFStatementParent ">
+                                                    <div className="PDFStatement relative ml-auto mr-[26px] mt-[14px]">
+                                                        <div className="LeftLogo">
+                                                            <img className="w-[116px]" src="https://i.ibb.co/v496myfT/logo.png" alt="logo" />
+                                                        </div>
+                                                        <div className="TopHead">
+                                                            <p class="text-center text-white">
+                                                                تصادق على صحة توقيع المسؤول والختم
+                                                                <br />
+                                                                دون تحمل الوزارة أية مسؤولية فيما يختص بمحتويات الوثيقة
+                                                            </p>
+                                                        </div>
+
+                                                        <div className="overflow-x-auto mt-[20px] ml-[60px]">
+                                                            <table className="min-w-full bg-white borde border-gray-30 shadow-md rounded-lg text-black">
+
+                                                                <tr className="border-bb border-gray-20 hover:bg-gray-50">
+                                                                    <td className="bg-red-20 text-left w-[18%] py-[1px] px-[1px] align-top text-black ">e-Verify No</td>
+                                                                    <td className="bg-green-20 text-left w-[40% py-[1px] px-[1px] align-top text-black ">VN184177</td>
+                                                                    <td className="bg-blue-20 text-left w-[22% py-[1px] px-[1px] align-top text-black ">رقم التصديق</td>
+                                                                </tr>
+
+                                                                <tr className="border-bb border-gray-20 hover:bg-gray-50">
+                                                                    <td className="bg-red-20 text-left w-[18%] py-[1px] px-[1px] align-top text-black ">Verify By</td>
+                                                                    <td className="bg-green-20 text-left w-[40% py-[1px] px-[1px] align-top text-black ">Salah 1</td>
+                                                                    <td className="bg-blue-20 text-left w-[22% py-[1px] px-[1px] align-top text-black ">تم التحقق من قبل</td>
+                                                                </tr>
+
+                                                                <tr className="border-bb border-gray-20 hover:bg-gray-50">
+                                                                    <td className="bg-red-20 text-left w-[18%] py-[1px] px-[1px] align-top text-black ">Verify at</td>
+                                                                    <td className="bg-green-20 text-left w-[40% py-[1px] px-[1px] align-top text-black ">Salalah</td>
+                                                                    <td className="bg-blue-20 text-left w-[22% py-[1px] px-[1px] align-top text-black ">تم التحقق في</td>
+                                                                </tr>
+
+                                                                <tr className="border-bb border-gray-20 hover:bg-gray-50">
+                                                                    <td className="bg-red-20 text-left w-[18%] py-[1px] px-[1px] align-top text-black ">Applicant Name</td>
+                                                                    <td className="bg-green-20 text-left w-[40% py-[1px] px-[1px] align-top text-black ">alimtyaz alimtyaz</td>
+                                                                    <td className="bg-blue-20 text-left w-[22% py-[1px] px-[1px] align-top text-black ">اسم العميل</td>
+                                                                </tr>
+
+                                                                <tr className="border-bb border-gray-20 hover:bg-gray-50">
+                                                                    <td className="bg-red-20 text-left w-[18%] py-[1px] px-[1px] align-top text-black ">Document Name</td>
+                                                                    <td className="bg-green-20 text-left w-[40% py-[1px] px-[1px] align-top text-black ">Attestation of Police Clerance</td>
+                                                                    <td className="bg-blue-20 text-left w-[22% py-[1px] px-[1px] align-top text-black ">اسم الوثيقة</td>
+                                                                </tr>
+
+                                                                <tr className="border-bb border-gray-20 hover:bg-gray-50">
+                                                                    <td className="bg-red-20 text-left w-[18%] py-[1px] px-[1px] align-top text-black ">Date of Attestation</td>
+                                                                    <td className="bg-green-20 text-left w-[40% py-[1px] px-[1px] align-top text-black ">2025-02-26 11:24:10</td>
+                                                                    <td className="bg-blue-20 text-left w-[22% py-[1px] px-[1px] align-top text-black ">تاريخ التصديق</td>
+                                                                </tr>
+
+                                                                <tr className="hover:bg-gray-50">
+                                                                    <td className="bg-red-20 text-left w-[18%] py-[1px] px-[1px] align-top text-black ">Approver Name</td>
+                                                                    <td className="bg-green-20 text-left w-[40% py-[1px] px-[1px] align-top text-black ">Sumaiyaa Al Balushi</td>
+                                                                    <td className="bg-blue-20 text-left w-[22% py-[1px] px-[1px] align-top text-black ">نعت المصادقة من قبل</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div className="QrCodeParent mt-[-10px]">
+                                                    <div className="QrCode flex items-center justify-end mr-[14px]">
+                                                        <div className="Left">
+                                                            <div className="helwo bg-[#535353] h-[2px] w-[480px] ml-auto"></div>
+                                                            <p className="text-right">VN00380129 : بالرقم تصديق</p>
+                                                            <p className="text-right">تم إنجاز المعاملة إلكترونيا و للتأكد من صحة المعاملة يمكنك مسح الباركود</p>
+                                                        </div>
+                                                        <div className="QR w-[84px] nd:w-[0px]">
+                                                            <QRCode
+                                                                size={80}
+                                                                bgColor="white"
+                                                                fgColor="black"
+                                                                value="https://omanpost.docswallat.com/User/&/page/preview/"
+                                                                style={{ height: "auto", maxWidth: "100%", width: "78px" }}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
                                     ))}
                                 </Document>
+
                             </div>
                         </div>
                     </div>

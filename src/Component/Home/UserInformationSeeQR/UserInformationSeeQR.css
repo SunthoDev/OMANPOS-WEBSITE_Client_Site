@@ -55,6 +55,7 @@
     height: 100%;
     background-color: white;
 }
+
 .preloader .spinner {
     position: absolute;
     width: 40px;
@@ -66,6 +67,7 @@
     -webkit-animation: rotatee 2.0s infinite linear;
     animation: rotatee 2.0s infinite linear;
 }
+
 .preloader .spinner .dot1,
 .preloader .spinner .dot2 {
     width: 60%;
@@ -78,6 +80,7 @@
     -webkit-animation: bouncee 2s infinite ease-in-out;
     animation: bouncee 2s infinite ease-in-out;
 }
+
 .preloader .spinner .dot2 {
     background: #00aeef;
     top: auto;
@@ -85,17 +88,20 @@
     -webkit-animation-delay: -1s;
     animation-delay: -1s;
 }
+
 @-webkit-keyframes rotatee {
     100% {
         -webkit-transform: rotate(360deg);
     }
 }
+
 @keyframes rotatee {
     100% {
         transform: rotate(360deg);
         -webkit-transform: rotate(360deg);
     }
 }
+
 @-webkit-keyframes bouncee {
 
     0%,
@@ -107,6 +113,7 @@
         -webkit-transform: scale(1);
     }
 }
+
 @keyframes bouncee {
 
     0%,
@@ -120,6 +127,7 @@
         -webkit-transform: scale(1);
     }
 }
+
 /* ============================================ */
 /* Pre Loading before Loading data End*/
 /* ============================================ */
@@ -140,6 +148,7 @@
     font-size: 20px;
     font-family: 'Calibri';
 }
+
 .UserInformationSeeQRParent .AdminPanelButton {
     position: absolute;
     top: 1%;
@@ -154,11 +163,13 @@
     transition: .4s;
     cursor: pointer;
 }
+
 .UserInformationSeeQRParent .AdminPanelButton:hover {
 
     background-color: #49afcd;
     color: white;
 }
+
 .UserInformationSeeQRParent .UserInformationSee {
     border: 1px solid #000;
     margin: 0 5%;
@@ -233,12 +244,149 @@
 
 
 
-
-
-
-
-
 /* ================================================================================================= */
+
+
+.PDFMainParent {
+    display: flex;
+    flex-direction: column;
+    /* align-items: left; */
+}
+
+.wrapper {
+    /* transform-origin: top right; */
+    overflow: hidden;
+}
+
+.PDFStatementParent {
+    overflow: hidden;
+    z-index: 10;
+}
+
+.PDFStatement {
+    border: 1px solid #919094;
+    border-radius: 0px;
+    width: 424px;
+    padding-bottom: 38px;
+}
+
+.PDFStatement table tr td {
+    font-size: 11px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 800;
+    line-height: 16px;
+}
+
+.PDFStatement .LeftLogo {
+    width: 100px;
+    height: 88px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #919094;
+    overflow: hidden;
+}
+
+.PDFStatement .TopHead {
+    width: 340px;
+    padding: 2px 0;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #cc9966;
+}
+
+.PDFStatement .TopHead p {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Roboto", sans-serif;
+    line-height: 16px;
+    padding-top: 6px;
+}
+
+/* ============================== */
+
+.QR {
+    z-index: 100;
+    border-top: 2px solid white;
+    border-left: 10px solid white;
+}
+
+.QrCode .Left p {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Roboto", sans-serif;
+    line-height: 16px;
+    padding-top: 6px;
+    color: black;
+    text-align: right;
+}
+
+
+@media (max-width: 767px) {
+
+    .PDFMainParent {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .wrapper {
+        /* height: calc(288px * 0.5); */
+        /* margin: 20px 10px 32px auto; */
+        /* background: #6a4d26; */
+    }
+
+    .PDFStatementParent {
+        height: calc(240px * 0.5);
+        width: 100%;
+        /* background: #6a4d26; */
+    }
+
+    .PDFStatement {
+        transform: scale(0.4);
+        transform-origin: top right;
+        margin-right: 118px;
+    }
+
+    /* ========================================== */
+
+    .QrCodeParent {
+        height: calc(120px * 0.4);
+        width: 100%;
+        /* background: aliceblue; */
+    }
+
+    .QrCode {
+        transform: scale(0.4);
+        transform-origin: top right;
+        margin-right: 111px;
+    }
+
+    .QrCode p {
+        font-size: 10px;
+    }
+
+    .QrCode .helwo {
+        width: 380px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -256,6 +404,7 @@
     z-index: 999;
     height: 100vh;
 }
+
 .showAlertJs {
     z-index: 999;
     top: 50%;
@@ -265,6 +414,7 @@
     position: fixed;
     height: 100vh;
 }
+
 .removeAlertBtnSeePDF {
     border-radius: 4px;
     position: fixed;
@@ -279,6 +429,7 @@
     font-weight: 500;
     z-index: 1000;
 }
+
 .removeAlertBtnSeePDF span {
     font-family: Calibri;
     font-size: 18px;
@@ -295,34 +446,77 @@
 
 /* ============================================= */
 .bar-spinner {
-  position: relative;
-  width: 40px;
-  height: 40px;
+    position: relative;
+    width: 40px;
+    height: 40px;
 }
+
 .bar {
-  position: absolute;
-  top: 6px;
-  left: 50%;
-  width: 2px;
-  height: 6px;
-  background: #c0c0c0;
-  border-radius: 1px;
-  transform-origin: center 14px;
-  animation: barFade 1.2s linear infinite;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    width: 2px;
+    height: 6px;
+    background: #c0c0c0;
+    border-radius: 1px;
+    transform-origin: center 14px;
+    animation: barFade 1.2s linear infinite;
 }
-.bar:nth-child(1)  { animation-delay: 0s; }
-.bar:nth-child(2)  { animation-delay: 0.1s; }
-.bar:nth-child(3)  { animation-delay: 0.2s; }
-.bar:nth-child(4)  { animation-delay: 0.3s; }
-.bar:nth-child(5)  { animation-delay: 0.4s; }
-.bar:nth-child(6)  { animation-delay: 0.5s; }
-.bar:nth-child(7)  { animation-delay: 0.6s; }
-.bar:nth-child(8)  { animation-delay: 0.7s; }
-.bar:nth-child(9)  { animation-delay: 0.8s; }
-.bar:nth-child(10) { animation-delay: 0.9s; }
-.bar:nth-child(11) { animation-delay: 1.0s; }
-.bar:nth-child(12) { animation-delay: 1.1s; }
+
+.bar:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.bar:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.bar:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.bar:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.bar:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+.bar:nth-child(6) {
+    animation-delay: 0.5s;
+}
+
+.bar:nth-child(7) {
+    animation-delay: 0.6s;
+}
+
+.bar:nth-child(8) {
+    animation-delay: 0.7s;
+}
+
+.bar:nth-child(9) {
+    animation-delay: 0.8s;
+}
+
+.bar:nth-child(10) {
+    animation-delay: 0.9s;
+}
+
+.bar:nth-child(11) {
+    animation-delay: 1.0s;
+}
+
+.bar:nth-child(12) {
+    animation-delay: 1.1s;
+}
+
 @keyframes barFade {
-  0%   { opacity: 1; }
-  100% { opacity: 0.25; }
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.25;
+    }
 }
